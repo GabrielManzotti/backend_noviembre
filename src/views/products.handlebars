@@ -1,0 +1,22 @@
+<h4>Welcome {{first_name}}</h4>
+<h5>Your email is {{email}}</h5>
+{{!-- {{#if isAdmin}}
+  <h5>You have Admin power</h5>
+{{else}}
+  <h5>Your rol is user</h5>
+{{/if}} --}}
+<button onclick="location.href='/api/users/logout'">Logout</button>
+{{#each results}}
+  <p>Title: {{title}} </p>
+  <p>Description: {{description}} </p>
+  <p>Code: {{code}} </p>
+  <p>Price: {{price}} </p>
+  <p>Status: {{status}} </p>
+  <p>Category: {{category}} </p>
+  <input type="submit" id="{{_id}}" value="Agregar al carrito" />
+  <p>----------------------------</p>
+
+{{/each}}
+
+<div id="productsList"></div>
+<script type="module" src="/js/products.js"></script>

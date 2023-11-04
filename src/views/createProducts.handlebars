@@ -1,0 +1,54 @@
+<h2>Create a product</h2>
+<div id="errorCreate"></div>
+<form id="createProduct">
+  <input type="text" name="title" id="title" placeholder="title" />
+  <input
+    type="text"
+    name="description"
+    id="description"
+    placeholder="description"
+  />
+  <input type="text" name="code" id="code" placeholder="code" />
+  <input type="number" name="price" id="price" placeholder="price" />
+  <input type="text" name="status" id="status" placeholder="status" />
+  <input type="number" name="stock" id="stock" placeholder="stock" />
+  <input type="text" name="category" id="category" placeholder="category" />
+  <input type="text" name="thumbnail" id="thumbnail" placeholder="thumbnail" />
+  <input type="submit" value="CREATE" />
+</form>
+
+<h2>Update a product</h2>
+<div id="errorUpdate"></div>
+<form id="updateProduct">
+  <input type="text" name="updateId" id="updateId" placeholder="id" />
+  <input
+    type="number"
+    name="updatePrice"
+    id="updatePrice"
+    placeholder="Price"
+  />
+  <input
+    type="text"
+    name="updateStatus"
+    id="updateStatus"
+    placeholder="Status"
+  />
+  <input
+    type="number"
+    name="updateStock"
+    id="updateStock"
+    placeholder="Stock"
+  />
+  <input type="submit" value="UPDATE" />
+</form>
+
+<h2>Delete a product</h2>
+<div id="errorDelete"></div>
+<form id="deleteProduct">
+  <input type="text" name="deleteId" id="deleteId" placeholder="id" />
+  <input type="submit" value="DELETE" />
+</form>
+
+<div id="productList"></div>
+
+<script type="module" src="/js/createProducts.js"></script>
