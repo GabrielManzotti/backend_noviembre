@@ -14,11 +14,27 @@ const usersSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    age: {
+        type: Number,
+        required: true
+    },
     password: {
         type: String,
         required: true
     },
+    cart: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "Cart"
+    },
+    role: {
+        type: String,
+        default: "user"
+    },
     from_github: {
+        type: Boolean,
+        default: false
+    },
+    from_google: {
         type: Boolean,
         default: false
     }

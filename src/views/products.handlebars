@@ -1,11 +1,8 @@
 <h4>Welcome {{first_name}}</h4>
 <h5>Your email is {{email}}</h5>
-{{!-- {{#if isAdmin}}
-  <h5>You have Admin power</h5>
-{{else}}
-  <h5>Your rol is user</h5>
-{{/if}} --}}
-<button onclick="location.href='/api/users/logout'">Logout</button>
+<h5 id="cart">cart: {{cart}}</h5>
+<h5>Role: {{role}}</h5>
+<button onclick="location.href='/api/sessions/logout'">Logout</button>
 {{#each results}}
   <p>Title: {{title}} </p>
   <p>Description: {{description}} </p>

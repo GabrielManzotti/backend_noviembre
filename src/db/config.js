@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
+import dotenv from 'dotenv'
 
+dotenv.config()
+const mongo_uri = process.env.URI
 
-const URI = "mongodb+srv://manzottigabriel:Gabriel11@cluster0.4qrmhhc.mongodb.net/productsv1?retryWrites=true&w=majority"
-
-
-mongoose.connect(URI)
+mongoose.connect(mongo_uri)
     .then(() => console.log("conectado a DB"))
     .catch((error) => console.log(error))
 

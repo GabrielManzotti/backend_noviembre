@@ -5,24 +5,34 @@ import passport from "passport";
 
 const router = Router();
 
-//passport
-router.post("/signup", passport.authenticate('signup', { successRedirect: "/api", failureRedirect: "/api/error" }))
+// //passport
+// router.post("/signup", passport.authenticate('signup', { successRedirect: "/api", failureRedirect: "/api/error" }))
 
-router.post("/login", passport.authenticate("login", { successRedirect: "/api", failureRedirect: "/api/error" }))
+// router.post("/login", passport.authenticate("login", { successRedirect: "/api", failureRedirect: "/api/error" }))
 
-router.get("/logout", (req, res) => {
-    req.session.destroy(() => {
-        res.redirect("/api/login")
-    })
+// router.get("/logout", (req, res) => {
+//     req.session.destroy(() => {
+//         res.redirect("/api/login")
+//     })
+// })
+
+// //github
+// router.get('/auth/github',
+//     passport.authenticate('github', { scope: ['user:email'] }));
+
+// router.get('/github',
+//     passport.authenticate('github', { failureRedirect: '/api/error', successRedirect: "/api" })
+// );
+
+router.get('/:idUser', async (req, res) => {
+    const { idUser } = req.params
+    try {
+        const user = await usersManager.findById(idUser)
+        res.status(200).json({ message: "User found", user })
+    } catch (error) {
+        res.status(500).json({ error })
+    }
 })
-
-//github
-router.get('/auth/github',
-    passport.authenticate('github', { scope: ['user:email'] }));
-
-router.get('/github',
-    passport.authenticate('github', { failureRedirect: '/api/error', successRedirect: "/api" })
-);
 
 router.delete('/delete/:idUser', async (req, res) => {
     const { idUser } = req.params
@@ -38,9 +48,6 @@ router.delete('/delete/:idUser', async (req, res) => {
     }
 })
 
-// router.get("/github", (req, res) => {
-//     res.redirect("/api/github")
-// })
 
 
 export default router

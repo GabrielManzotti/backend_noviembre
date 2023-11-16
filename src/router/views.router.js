@@ -4,9 +4,15 @@ import { productsManager } from "../dao/managers/productsManager.js";
 const router = Router()
 
 router.get("/", async (req, res) => {
-    const results = await productsManager.find({})
+    try {
+        const results = await productsManager.find({})
+        const cart = req.user.cart._id.toString();
+        const role = req.user.role
+        res.render('products', { results, first_name: req.user.first_name, email: req.user.email, cart, role })
+    } catch (error) {
+        res.render("login")
+    }
 
-    res.render('products', { results, first_name: req.user.first_name, email: req.user.email })
 })
 
 router.get('/productsList', (req, res) => {
@@ -30,9 +36,8 @@ router.get("/login", (req, res) => {
 })
 
 router.get("/home", (req, res) => {
-    console.log("req", req)
-    const { first_name, email, isAdmin } = req.session
-    res.render("home", { first_name, })
+
+    res.render("home")
 })
 
 router.get("/error", (req, res) => {

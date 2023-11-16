@@ -1,10 +1,12 @@
 <h1>SIGNUP</h1>
 
-<form action="/api/users/signup" method="post">
+<form action="/api/sessions/signup" method="post">
   FirstName:
   <input type="text" name="first_name" id="first_name" />
   LastName:
   <input type="text" name="last_name" id="last_name" />
+  Age:
+  <input type="number" name="age" id="age" />
   Email:
   <input type="email" name="email" id="email" />
   Password
@@ -12,4 +14,11 @@
   <input type="submit" value="SIGNUP" />
 </form>
 
-<button onclick="location.href='/api/users/auth/github'">GITHUB</button>
+<button onclick="location.href='/api/sessions/auth/github'">GITHUB</button>
+<button onclick="location.href='/api/sessions/auth/google'">GOOGLE</button>
+
+<p></p>
+<div>
+  already user?
+  <button onclick="location.href='/api/signup'">LOG IN</button>
+</div>

@@ -1,7 +1,7 @@
 import { usersModel } from "../../db/models/users.models.js"
 class UsersManager {
     async findById(id) {
-        const result = await usersModel.findById(id)
+        const result = await usersModel.findById(id).populate("cart")
         return result
     }
 
