@@ -8,7 +8,8 @@ class CartManager {
     }
 
     async findById(id, atributes) {
-        return cartsModel.findById(id).populate("products.productId", atributes)
+        const cart = await cartsModel.findById(id).populate("products.productId", atributes)
+        return cart
     }
 
     async createOne(obj) {

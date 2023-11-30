@@ -5,20 +5,20 @@ import { __dirname } from './utils.js'
 import { engine } from 'express-handlebars';
 import viewsRouter from './router/views.router.js'
 import { Server } from 'socket.io';
-import { productManager } from './dao/entities/script2doEntregable.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import usersRouter from "./router/users.router.js"
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import sessionRouter from './router/session.router.js';
+import config from "./config.js"
 import './passport.js'
 import './db/config.js'
 import dotenv from 'dotenv'
 
 dotenv.config()
-const mongo_uri = process.env.URI
-const session_secret_key = process.env.SESSION_SECRET_KEY
+const mongo_uri = config.URI
+const session_secret_key = config.SESSION_SECRET_KEY
 
 const app = express()
 

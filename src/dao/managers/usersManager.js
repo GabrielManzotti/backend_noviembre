@@ -23,6 +23,36 @@ class UsersManager {
             return "User not found"
         }
     }
+
+    async updateRole(role, userId) {
+        role = role
+        userId = userId
+        try {
+            const result = await usersModel.findById(userId)
+            result.role = role
+            await result.save();
+            return result.role
+        } catch (error) {
+            return error
+        }
+    }
+
+    async countUsersByRole(role) {
+        role = role
+        const result = await usersModel.aggregate([
+            { $match: { role: role } },
+            { $count: "Total de registros" },
+        ])
+        return result
+    }
+
+    async countUsers() {
+        const result = await usersModel.aggregate([
+            { $count: "Total de registros" },
+        ])
+        return result
+    }
+
 }
 
 export const usersManager = new UsersManager()

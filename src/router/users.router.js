@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { usersManager } from "../dao/managers/usersManager.js";
 import { compareData, hashData } from "../utils.js"
+import obj from "../controllers/users.controllers.js";
 import passport from "passport";
 
 const router = Router();
@@ -24,31 +25,11 @@ const router = Router();
 //     passport.authenticate('github', { failureRedirect: '/api/error', successRedirect: "/api" })
 // );
 
-router.get('/:idUser', async (req, res) => {
-    const { idUser } = req.params
-    try {
-        const user = await usersManager.findById(idUser)
-        res.status(200).json({ message: "User found", user })
-    } catch (error) {
-        res.status(500).json({ error })
-    }
-})
-
-router.delete('/delete/:idUser', async (req, res) => {
-    const { idUser } = req.params
-    try {
-        const result = await usersManager.deleteOne(idUser)
-        if (result === "User not found") {
-            return res.status(400).json({ message: "user not found" })
-        } else {
-            return res.status(200).json({ message: "User deleted", User: result })
-        }
-    } catch (error) {
-        return res.status(500).json({ message: "error!" })
-    }
-})
-
-
+router.delete('/delete/:idUser', obj.deleteAUser)
+router.get('/count/countByRole', obj.countUsersByRoleController)
+router.get('/count/countAll', obj.countUsersController)
+router.put('/updateRole', obj.updateRoleController)
+router.get('/:idUser', obj.findUserById)
 
 export default router
 

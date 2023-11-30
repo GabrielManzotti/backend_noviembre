@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
     } catch (error) {
         res.render("login")
     }
-
 })
 
 router.get('/productsList', (req, res) => {

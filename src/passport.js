@@ -5,12 +5,13 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { hashData, compareData } from "./utils.js";
 import { cartsManager } from "./dao/managers/cartsManager.js";
+import config from './config.js'
 import dotenv from 'dotenv'
 dotenv.config()
-const github_client_id = process.env.GITHUB_CLIENT_ID
-const github_client_secret = process.env.GITHUB_CLIENT_SECRET
-const google_client_id = process.env.GOOGLE_CLIENT_ID
-const google_client_secret = process.env.GOOGLE_CLIENT_SECRET
+const github_client_id = config.GITHUB_CLIENT_ID
+const github_client_secret = config.GITHUB_CLIENT_SECRET
+const google_client_id = config.GOOGLE_CLIENT_ID
+const google_client_secret = config.GOOGLE_CLIENT_SECRET
 
 // LOCAL
 
@@ -30,7 +31,6 @@ passport.use("signup", new LocalStrategy({
     } catch (error) {
         done(error)
     }
-
 }))
 
 passport.use("login", new LocalStrategy({

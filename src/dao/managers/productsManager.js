@@ -45,8 +45,8 @@ class ProductManager {
     }
 
     async findAgregationByCategoryAndPrice(category, price, opt) {
-        const response = await productsManager.aggregate([
-            { $match: { price: category } },
+        const result = await productsModel.aggregate([
+            { $match: { category: category } },
             { $match: { price: { $gt: price } } }
         ], opt)
         const info = {
@@ -57,14 +57,15 @@ class ProductManager {
             prev: result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}` : "none",
             next: result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}` : "none"
         }
-        return { info, results: result.docs }
+        return { info, results: result }
     }
 
     async findById(id) {
         return productsModel.findById(id)
     }
     async createOne(obj) {
-        return productsModel.create(obj)
+        const product = await productsModel.create(obj)
+        return product
     }
     async updateOne(id, obj) {
         return productsModel.updateOne({ _id: id }, obj);
