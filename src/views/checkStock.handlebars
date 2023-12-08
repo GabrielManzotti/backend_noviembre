@@ -1,0 +1,23 @@
+<h3>Sorry, but these products are out of stock</h3>
+
+{{#each filteredProducts}}
+  <p>Title: {{title}} </p>
+  <p>Description: {{description}} </p>
+  <p>Price: {{price}} </p>
+  <p>------------------</p>
+{{/each}}
+
+<h3>These it's going to be the cart</h3>
+{{#each filteredProductsWithStock}}
+  <p>Title: {{title}} </p>
+  <p>Description: {{description}} </p>
+  <p>Price: {{price}} </p>
+  <p>Quantity: {{quantity}}</p>
+  <p>------------------</p>
+{{/each}}
+
+<p>Total: {{total}}</p>
+
+<button onclick="location.href='/api/checkOut'">CONFIRM</button>
+<p></p>
+<button onclick="location.href='/api'">CANCEL</button>

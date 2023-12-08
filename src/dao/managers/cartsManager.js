@@ -26,7 +26,7 @@ class CartManager {
         } else {
             foundCart.products = [
                 ...foundCart.products,
-                ...[{ productId: productId, quantity: 1 }],
+                ...[{ productId: productId, quantity: quantity }],
             ];
         }
         await foundCart.save();
@@ -75,6 +75,25 @@ class CartManager {
             return "Product not deleted";
         }
     }
+
+
+    async resetProductsInCart(cartId) {
+        try {
+            const cart = await cartsManager.findById(cartId)
+            const cartFiltered = cart.products
+            let id
+            cartFiltered.forEach(async (e) => {
+                id = e.productId.id
+                id = e.productId.id
+                const result = await cartsManager.deleteAProductInCart(cartId, id)
+                console.log(result);
+            })
+            return result
+        } catch (error) {
+            error
+        }
+    }
 }
+
 
 export const cartsManager = new CartManager();

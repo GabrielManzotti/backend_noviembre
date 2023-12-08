@@ -9,7 +9,9 @@ const obj = {
     JWT_SECRET: process.env.JWT_SECRET,
     SESSION_SECRET_KEY: process.env.SESSION_SECRET_KEY,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GMAIL_USER: process.env.GMAIL_USER,
+    GMAIL_PASSWORD: process.env.GMAIL_PASSWORD
 }
 
 export default obj

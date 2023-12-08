@@ -62,13 +62,37 @@ const deleteCart = async (req, res) => {
     }
 }
 
+const deleteAProductInCart = async (req, res) => {
+    let cartId = req.params.cid
+    let productId = req.params.pid
+    try {
+        const result = await objServices.deleteAProductInCart(cartId, productId)
+        return res.status(200).json({ message: "Product deleted", Cart: result })
+    } catch (error) {
+        return res.status(500).json({ message: "error" })
+    }
+}
+
+const resetProductsInCart = async (req, res) => {
+    let cartId = req.params.cid
+    try {
+        const result = await objServices.resetProductsInCart(cartId)
+        return res.status(200).json({ message: "Cart reseted", Cart: result })
+    } catch (error) {
+        return res.status(500).json({ message: "error" })
+    }
+}
+
+
 const obj = {
     deleteCart,
     updateInCartAProduct,
     addInCartAProduct,
     findCartById,
     findAllCarts,
-    createCart
+    createCart,
+    deleteAProductInCart,
+    resetProductsInCart
 }
 
 export default obj

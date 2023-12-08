@@ -1,8 +1,7 @@
 const cart = document.getElementById("cart")
 const cartText = cart.textContent
 const idCart = cartText.split(' ')[1]
-
-console.log(idCart);
+localStorage.setItem("idCart", JSON.stringify(idCart))
 
 window.addEventListener('click', function (e) {
     function detectButton(event) {
@@ -17,17 +16,7 @@ window.addEventListener('click', function (e) {
 })
 
 async function addNewProductToCart(product, obj) {
-    try {
-        const result = await fetch(`http://localhost:8080/api/cart/${idCart}/product/${product}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(obj)
-        });
-        window.location.replace(`http://localhost:8080/api/cart/${idCart}`)
-    } catch (error) {
-        error
-    }
+    localStorage.setItem("producto elegido", JSON.stringify(product))
+    window.location.replace('http://localhost:8080/api/addProduct')
 }
 

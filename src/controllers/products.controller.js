@@ -7,7 +7,6 @@ const createProduct = async (req, res) => {
     }
     try {
         const createdProduct = await objService.createOne(req.body)
-        console.log("created!", createdProduct);
         res.status(200).json({ message: "product created", product: createdProduct })
     } catch (error) {
         res.status(500).json({ error: error.message })

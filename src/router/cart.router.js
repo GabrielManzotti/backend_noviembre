@@ -10,5 +10,7 @@ router.get('/:cid', obj.findCartById)
 router.post('/:cid/product/:pid', obj.addInCartAProduct)
 router.put('/:cid/product/:pid', obj.updateInCartAProduct)
 router.delete('/delete/:cartId', obj.deleteCart)
+router.delete('/:cid/product/:pid', obj.deleteAProductInCart)
+router.delete('/resetCart/:cid', obj.resetProductsInCart)
 
 export default router

@@ -77,8 +77,6 @@ updateProduct.onsubmit = (e) => {
     } else {
         error.innerHTML = `<p class="error">--- ERROR: Data is missing ---</p>`
     }
-
-
 }
 
 async function updateProductFunc(id, obj) {

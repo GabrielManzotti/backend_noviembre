@@ -11,6 +11,8 @@ import usersRouter from "./router/users.router.js"
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
 import sessionRouter from './router/session.router.js';
+import messagesRouter from './router/messages.router.js'
+import ordersRouter from './router/orders.router.js'
 import config from "./config.js"
 import './passport.js'
 import './db/config.js'
@@ -55,6 +57,8 @@ app.use('/api/cart', cartRouter)
 app.use('/api/users', usersRouter)
 app.use('/api', viewsRouter)
 app.use('/api/sessions', sessionRouter)
+app.use('/api/messages', messagesRouter)
+app.use('/api/orders', ordersRouter)
 
 const httpServer = app.listen(8080, () => {
     console.log('Escuchando al puerto 8080')

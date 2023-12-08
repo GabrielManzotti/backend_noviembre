@@ -35,6 +35,11 @@ const deleteAProductInCart = (cartId, productId) => {
     return result
 }
 
+const resetProductsInCart = (cartId) => {
+    const result = cartsManager.resetProductsInCart(cartId)
+    return result
+}
+
 const obj = {
     findAll,
     findById,
@@ -42,7 +47,9 @@ const obj = {
     addAProductInCart,
     updateAProductInCart,
     deleteOne,
-    deleteAProductInCart
+    deleteAProductInCart,
+    resetProductsInCart
+
 }
 
 export default obj

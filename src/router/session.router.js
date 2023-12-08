@@ -1,6 +1,8 @@
 import { Router } from "express";
 import passport from "passport";
 import { generateToken } from "../utils.js";
+import { authMiddleware } from "../midldlewares/auth.middleware.js";
+import obj from '../controllers/session.controllers.js'
 
 const router = Router()
 
@@ -30,18 +32,7 @@ router.get('/auth/google',
 router.get('/google',
     passport.authenticate('google', { failureRedirect: '/api/error', successRedirect: "/api" }))
 
-router.get('/current', async (req, res) => {
-    const currentUser = req.user
-    console.log("log", currentUser);
-    try {
-        if (currentUser) {
-            return res.status(200).json({ message: "Current user", User: currentUser })
-        } else {
-            return res.status(400).json({ message: "No user login" })
-        }
-    } catch (error) {
-        return res.status(500).json({ message: "error!" })
-    }
-})
+//current
+router.get('/current', authMiddleware('admin'), obj.sessionUser)
 
 export default router

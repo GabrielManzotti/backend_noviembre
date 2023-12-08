@@ -5,6 +5,7 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { hashData, compareData } from "./utils.js";
 import { cartsManager } from "./dao/managers/cartsManager.js";
+import { sendEmail } from "./utils.js";
 import config from './config.js'
 import dotenv from 'dotenv'
 dotenv.config()
@@ -12,9 +13,10 @@ const github_client_id = config.GITHUB_CLIENT_ID
 const github_client_secret = config.GITHUB_CLIENT_SECRET
 const google_client_id = config.GOOGLE_CLIENT_ID
 const google_client_secret = config.GOOGLE_CLIENT_SECRET
+let subject = "Bienvenido"
+let text = "Registro existoso. Bienvenido"
 
 // LOCAL
-
 passport.use("signup", new LocalStrategy({
     usernameField: 'email',
     passReqToCallback: true
@@ -27,6 +29,7 @@ passport.use("signup", new LocalStrategy({
         const createdCart = await cartsManager.createOne()
         const hashedPassword = await hashData(password)
         const createdUser = await usersManager.createOne({ ...req.body, password: hashedPassword, cart: createdCart._id })
+        await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
         done(null, createdUser)
     } catch (error) {
         done(error)
@@ -78,6 +81,7 @@ passport.use("github", new GithubStrategy({
         }
         const createdCart = await cartsManager.createOne()
         const createdUser = await usersManager.createOne({ ...newUser, cart: createdCart._id })
+        await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
         done(null, createdUser)
     } catch (error) {
         done(error)
@@ -111,6 +115,7 @@ passport.use('google', new GoogleStrategy({
         }
         const createdCart = await cartsManager.createOne()
         const createdUser = await usersManager.createOne({ ...newUser, cart: createdCart._id })
+        await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
         done(null, createdUser)
     } catch (error) {
         done(error)
