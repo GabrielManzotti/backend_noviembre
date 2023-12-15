@@ -64,6 +64,10 @@ app.use('/api/sessions', sessionRouter)
 app.use('/api/messages', messagesRouter)
 app.use('/api/orders', ordersRouter)
 
+app.use(errorMiddleware)
+
+
+
 const httpServer = app.listen(8080, () => {
     console.log('Escuchando al puerto 8080')
 })

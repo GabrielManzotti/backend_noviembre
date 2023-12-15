@@ -1,5 +1,6 @@
 import objService from "../services/products.service.js";
 import { errorMiddleware } from "../errors/error.middleware.js";
+import { errorMessages } from "../errors/error.enum.js";
 
 
 const createProduct = async (req, res) => {
@@ -57,7 +58,7 @@ const findProductByPrice = async (req, res) => {
     }
 }
 
-const findProductById = async (req, res) => {
+const findProductById = async (req, res, next) => {
     const { idProduct } = req.params
     try {
         const product = await objService.findById(idProduct)
@@ -69,7 +70,9 @@ const findProductById = async (req, res) => {
             return res.status(400).json({ message: "no found produducts" })
         }
     } catch (error) {
-        return res.status(500).json({ message: "error!" })
+        error = errorMessages.PRODUCT_BY_ID_NOT_FOUND
+        // return res.status(500).json({ message: "error!" })
+        next(error)
     }
 
 }
