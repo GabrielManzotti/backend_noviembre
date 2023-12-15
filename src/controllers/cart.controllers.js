@@ -1,4 +1,5 @@
 import objServices from "../services/cart.service.js";
+import { errorMiddleware } from "../errors/error.middleware.js";
 
 const createCart = async (req, res) => {
     const cart = await objServices.createOne()
@@ -55,7 +56,7 @@ const updateInCartAProduct = async (req, res) => {
 const deleteCart = async (req, res) => {
     const { cartId } = req.params
     try {
-        const deletedCart = await deleteOne(cartId)
+        const deletedCart = await objServices.deleteOne(cartId)
         return res.status(200).json({ message: "Cart deleted", Cart: deletedCart })
     } catch (error) {
         res.status(500).json({ message: "error!" })
@@ -75,8 +76,9 @@ const deleteAProductInCart = async (req, res) => {
 
 const resetProductsInCart = async (req, res) => {
     let cartId = req.params.cid
+    let { email } = req.body
     try {
-        const result = await objServices.resetProductsInCart(cartId)
+        const result = await objServices.resetProductsInCart(cartId, email)
         return res.status(200).json({ message: "Cart reseted", Cart: result })
     } catch (error) {
         return res.status(500).json({ message: "error" })

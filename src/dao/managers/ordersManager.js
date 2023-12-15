@@ -2,10 +2,11 @@ import { orderModel } from "../../db/models/order.models.js";
 import { cartsModel } from "../../db/models/cart.models.js";
 import { cartsManager } from "./cartsManager.js";
 import { productsManager } from "../managers/productsManager.js"
+import { sendEmail } from "../../utils.js";
 
 
 class OrdersManager {
-    async createOne(idCart, email, atributes) {
+    async createOne(idCart, email, first_name, last_name, atributes) {
         const totalOrdersInDb = await orderModel.find()
         const lengh = totalOrdersInDb.length
         let id
@@ -29,6 +30,9 @@ class OrdersManager {
             purchaser: email
         }
         const result = await orderModel.create(ticket)
+        let subject = "Orden generada con éxito"
+        let text = "El producto está siendo despachado"
+        await sendEmail(subject, email, first_name, last_name, text)
         return ticket
     }
 
@@ -65,7 +69,6 @@ class OrdersManager {
     async checkStock(idCart, atributes) {
         const cart = await cartsModel.findById(idCart).populate("products.productId", ["title", "description", "price", "quantity", "stock"])
         const cartFiltered = cart.products
-        console.log(cartFiltered);
         let stock = 0
         let id = ""
         let title = ""
@@ -88,15 +91,24 @@ class OrdersManager {
             } else {
                 cartOnlyWithStock.push({ id: e.productId.id, quantity: e.quantity, title: e.productId.title, price: e.productId.price })
             }
-
         })
-        // const cartRefreshed = await cartsModel.findById(idCart).populate("products.productId", ["title", "description", "price"])
-        // const cartRefreshed2 = await cartsModel.findById(idCart).populate("products.productId", ["title", "description", "price"])
-        // const cartRefreshed3 = await cartsModel.findById(idCart).populate("products.productId", ["title", "description", "price"])
-        // const cartRefreshed4 = await cartsModel.findById(idCart).populate("products.productId", ["title", "description", "price"])
-        // const cartRefreshed5 = await cartsModel.findById(idCart).populate("products.productId", ["title", "description", "price"])
         return { with_stock: cartOnlyWithStock, without_stock: cartWitoutStock }
 
+    }
+
+    async totalAmountOrders() {
+        const result = await orderModel.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    total: {
+                        $sum: "$amount"
+                    },
+                }
+            },
+
+        ],)
+        return result
     }
 
 }

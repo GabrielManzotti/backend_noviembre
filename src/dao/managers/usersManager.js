@@ -46,6 +46,14 @@ class UsersManager {
         return result
     }
 
+    async getAdminsUsers() {
+        let role = 'admin'
+        const result = await usersModel.aggregate([
+            { $match: { role: role } },
+        ])
+        return result
+    }
+
     async countUsers() {
         const result = await usersModel.aggregate([
             { $count: "Total de registros" },

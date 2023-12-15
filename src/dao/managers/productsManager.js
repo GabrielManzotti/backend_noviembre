@@ -61,8 +61,14 @@ class ProductManager {
     }
 
     async findById(id) {
-        return productsModel.findById(id)
+        const product = await productsModel.findOne({ _id: id })
+        if (product) {
+            return product
+        } else {
+            return "No product"
+        }
     }
+
     async createOne(obj) {
         const product = await productsModel.create(obj)
         return product

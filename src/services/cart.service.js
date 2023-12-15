@@ -35,8 +35,8 @@ const deleteAProductInCart = (cartId, productId) => {
     return result
 }
 
-const resetProductsInCart = (cartId) => {
-    const result = cartsManager.resetProductsInCart(cartId)
+const resetProductsInCart = (cartId, email) => {
+    const result = cartsManager.resetProductsInCart(cartId, email)
     return result
 }
 

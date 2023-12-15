@@ -1,6 +1,13 @@
-<h3 id="{{idCart}}" class="idCart">your cart</h3>
-<h5>Total: ${{total}}</h5>
-<p>------------------</p>
+{{#if filteredProducts}}
+  <h3 id="{{idCart}}" class="idCart">your cart</h3>
+{{else}}
+  <h3 id="{{idCart}}" class="idCart">your cart it's empty.</h3>
+{{/if}}
+
+{{#if filteredProducts}}
+  <h5>Total: ${{total}}</h5>
+  <p>------------------</p>
+{{/if}}
 
 {{#each filteredProducts}}
   <div id="{{id}}">
@@ -9,7 +16,7 @@
     <p>Price: {{price}} </p>
     <input
       type="submit"
-      onclick="location.href='/api'"
+      onclick="location.href='/api/'"
       id={{id}}
       value="DELETE"
     />
@@ -17,8 +24,11 @@
   </div>
 {{/each}}
 
-<button onclick="location.href='/api/checkStock'">CONTINUE TO PURCHASE</button>
-<p></p>
+{{#if filteredProducts}}
+  <button onclick="location.href='/api/checkStock'">CONTINUE TO PURCHASE</button>
+  <p></p>
+{{/if}}
+
 <button onclick="location.href='/api'">BACK TO HOME</button>
 
 <script type="module" src="/js/purchase.js"></script>

@@ -41,6 +41,7 @@ passport.use("login", new LocalStrategy({
 }, async (email, password, done) => {
     try {
         const userDB = await usersManager.findByEmail(email)
+        console.log(userDB.cart);
         if (!userDB) {
             return done(null, false)
         }

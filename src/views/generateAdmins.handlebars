@@ -1,0 +1,25 @@
+<h3>Generate admins</h3>
+
+<h5>Actually admins</h5>
+{{#each adminsArray}}
+  <p>id: {{id}} </p>
+  <p>First name: {{first_name}} </p>
+  <p>Last name: {{last_name}} </p>
+  <p>------------------</p>
+{{/each}}
+
+<h5>Update role</h5>
+<div id="error"></div>
+<form id="update">
+  Id user:
+  <input type="text" name="userId" id="userId" />
+  Role
+  <select id="role">
+    <option value="admin">admin</option>
+    <option value="user">user</option>
+  </select>
+  <input type="submit" value="CONVERT" />
+</form>
+
+<button onclick="location.href='/api/'">BACK TO HOME</button>
+<script type="module" src="/js/generateAdmin.js"></script>

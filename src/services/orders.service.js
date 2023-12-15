@@ -20,11 +20,17 @@ const checkStock = (idCart) => {
     return result
 }
 
+const totalAmountOrders = () => {
+    const result = ordersManager.totalAmountOrders()
+    return result
+}
+
 const obj = {
     createOrder,
     getAllOrders,
     purchaseCart,
-    checkStock
+    checkStock,
+    totalAmountOrders
 }
 
 export default obj

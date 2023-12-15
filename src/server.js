@@ -17,6 +17,8 @@ import config from "./config.js"
 import './passport.js'
 import './db/config.js'
 import dotenv from 'dotenv'
+import { errorMiddleware } from './errors/error.middleware.js';
+
 
 dotenv.config()
 const mongo_uri = config.URI
@@ -26,6 +28,8 @@ const app = express()
 
 const secret = '123456'
 app.use(cookieParser(secret))
+
+app.use(errorMiddleware)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -72,7 +76,6 @@ const onConnection = async (socket) => {
 }
 
 socketServer.on("connection", (socket) => {
-    console.log("cliente conectado", socket.id);
     socket.on("getProducts", async () => {
         const products = await productManager.getProducts();
         socketServer.emit("updatedProducts", products);

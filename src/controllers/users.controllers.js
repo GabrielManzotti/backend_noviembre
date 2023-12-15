@@ -67,12 +67,23 @@ const findUserById = async (req, res) => {
     }
 }
 
+const getAdminsUsers = async (req, res) => {
+    try {
+        const result = await obj.getAdminsUsers()
+        return res.status(200).json({ message: "Admins", users: result })
+    } catch (error) {
+        res.status(500).json({ error })
+    }
+
+}
+
 const objCtrollers = {
     deleteAUser,
     countUsersByRoleController,
     countUsersController,
     updateRoleController,
-    findUserById
+    findUserById,
+    getAdminsUsers
 }
 
 export default objCtrollers

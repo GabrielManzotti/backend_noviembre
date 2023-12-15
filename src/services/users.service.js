@@ -31,10 +31,16 @@ const countUsersByRole = (role) => {
 }
 
 const countUsers = () => {
-    console.log("llega a service");
     const result = usersManager.countUsers()
     return result
 }
+
+const getAdminsUsers = () => {
+    const result = usersManager.getAdminsUsers()
+    return result
+}
+
+
 
 const obj = {
     findById,
@@ -43,7 +49,8 @@ const obj = {
     deleteOne,
     updateRole,
     countUsersByRole,
-    countUsers
+    countUsers,
+    getAdminsUsers
 }
 
 export default obj

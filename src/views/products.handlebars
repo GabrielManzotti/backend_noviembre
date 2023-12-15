@@ -2,6 +2,11 @@
 <h5>Your email is {{email}}</h5>
 <h5 id="cart">cart: {{cart}}</h5>
 <h5>Role: {{role}}</h5>
+
+{{#if isAdmin}}
+  <button onclick="location.href='/api/backOfficeHome'">BACK OFFICE</button>
+  <p></p>
+{{/if}}
 <button onclick="location.href='/api/sessions/logout'">Logout</button>
 <p></p>
 <button onclick="location.href='/api/purchase'">CART</button>

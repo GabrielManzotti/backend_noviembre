@@ -1,4 +1,5 @@
 import { cartsModel } from "../../db/models/cart.models.js";
+import { usersManager } from "./usersManager.js";
 
 class CartManager {
 
@@ -77,18 +78,15 @@ class CartManager {
     }
 
 
-    async resetProductsInCart(cartId) {
+    async resetProductsInCart(cartId, email) {
         try {
-            const cart = await cartsManager.findById(cartId)
-            const cartFiltered = cart.products
-            let id
-            cartFiltered.forEach(async (e) => {
-                id = e.productId.id
-                id = e.productId.id
-                const result = await cartsManager.deleteAProductInCart(cartId, id)
-                console.log(result);
-            })
-            return result
+            const deleteCart = await cartsManager.deleteOne(cartId)
+            const userByEmail = await usersManager.findByEmail(email)
+            const newCar = await cartsManager.createOne()
+            const newCarId = newCar._id.toString()
+            userByEmail.cart = newCarId
+            await userByEmail.save()
+            return newCar
         } catch (error) {
             error
         }

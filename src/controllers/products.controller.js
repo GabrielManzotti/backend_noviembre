@@ -1,4 +1,6 @@
 import objService from "../services/products.service.js";
+import { errorMiddleware } from "../errors/error.middleware.js";
+
 
 const createProduct = async (req, res) => {
     const { title, description, code, price, status, stock, category, thumbnail, } = req.body
@@ -59,6 +61,7 @@ const findProductById = async (req, res) => {
     const { idProduct } = req.params
     try {
         const product = await objService.findById(idProduct)
+        console.log(product);
 
         if (product) {
             return res.status(200).json({ message: "Product", Product: product })
@@ -68,6 +71,7 @@ const findProductById = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: "error!" })
     }
+
 }
 
 const findProductByCategory = async (req, res) => {

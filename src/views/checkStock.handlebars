@@ -1,5 +1,6 @@
-<h3>Sorry, but these products are out of stock</h3>
-
+{{#if filteredProducts}}
+  <h3>Sorry, but these products are out of stock</h3>
+{{/if}}
 {{#each filteredProducts}}
   <p>Title: {{title}} </p>
   <p>Description: {{description}} </p>
@@ -16,7 +17,7 @@
   <p>------------------</p>
 {{/each}}
 
-<p>Total: {{total}}</p>
+<p>Total: ${{total}}</p>
 
 <button onclick="location.href='/api/checkOut'">CONFIRM</button>
 <p></p>

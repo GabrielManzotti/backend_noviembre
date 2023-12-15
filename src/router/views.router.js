@@ -3,6 +3,7 @@ import { productsManager } from "../dao/managers/productsManager.js";
 import { cartsManager } from "../dao/managers/cartsManager.js";
 import { ordersManager } from "../dao/managers/ordersManager.js";
 import { authMiddleware } from "../midldlewares/auth.middleware.js";
+import { usersManager } from "../dao/managers/usersManager.js";
 
 const router = Router()
 
@@ -11,7 +12,9 @@ router.get("/", async (req, res) => {
         const results = await productsManager.find({})
         const cart = req.user.cart._id.toString();
         const role = req.user.role
-        res.render('products', { results, first_name: req.user.first_name, email: req.user.email, cart, role })
+        let isAdmin
+        role === 'admin' ? isAdmin = true : isAdmin = false
+        res.render('products', { results, first_name: req.user.first_name, email: req.user.email, cart, role, isAdmin })
     } catch (error) {
         res.render("login")
     }
@@ -124,14 +127,45 @@ router.get("/checkStock", async (req, res) => {
 router.get("/checkOut", async (req, res) => {
     const idCart = req.user.cart._id.toString()
     const email = req.user.email
+    const first_name = req.user.first_name
+    const last_name = req.user.last_name
     try {
         const purchase = await ordersManager.purchaseCart(idCart)
-        const order = await ordersManager.createOne(idCart, email)
+        const order = await ordersManager.createOne(idCart, email, first_name, last_name)
+        const resetCart = await cartsManager.resetProductsInCart(idCart, email)
         res.render('checkOut', { order })
     } catch (error) {
         res.render("login")
     }
 })
 
+router.get("/backOfficeHome", authMiddleware('admin'), (req, res) => {
+    res.render("backOfficeHome")
+})
+
+router.get("/generateAdmins", authMiddleware('admin'), async (req, res) => {
+    try {
+        const admins = await usersManager.getAdminsUsers()
+        let adminsArray = []
+        let adm
+        admins.forEach(async (e) => {
+            adm = { id: e._id, first_name: e.first_name, last_name: e.last_name }
+            adminsArray.push(adm)
+        })
+        res.render("generateAdmins", { adminsArray })
+    } catch (error) {
+        res.render("login")
+    }
+})
+
+router.get('/libraryOrders', authMiddleware('admin'), async (req, res) => {
+    try {
+        const totalAmountOrders = await ordersManager.totalAmountOrders()
+        let total = totalAmountOrders[0].total
+        res.render("libraryOrders", { total })
+    } catch (error) {
+        res.render("login")
+    }
+})
 
 export default router
