@@ -11,7 +11,8 @@ const obj = {
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GMAIL_USER: process.env.GMAIL_USER,
-    GMAIL_PASSWORD: process.env.GMAIL_PASSWORD
+    GMAIL_PASSWORD: process.env.GMAIL_PASSWORD,
+    ENVIRONMENT: process.env.ENVIRONMENT
 }
 
 export default obj

@@ -1,0 +1,10 @@
+{
+  message: 'probando error',
+  level: 'error',
+  timestamp: '2023-12-18T23:40:19.088Z'
+}
+{
+  message: 'probando error',
+  level: 'error',
+  timestamp: '2023-12-18T23:43:07.097Z'
+}

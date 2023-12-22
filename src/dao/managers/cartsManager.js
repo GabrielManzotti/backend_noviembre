@@ -1,4 +1,5 @@
 import { cartsModel } from "../../db/models/cart.models.js";
+import { productsManager } from "./productsManager.js";
 import { usersManager } from "./usersManager.js";
 
 class CartManager {
@@ -19,11 +20,21 @@ class CartManager {
 
     async addAProductInCart(cartId, productId, quantity) {
         const foundCart = await cartsModel.findById(cartId)
+        const productById = await productsManager.findById(productId)
+        let netQuantity = productById.stock - quantity
+        if (netQuantity < 0) {
+            return "no stock"
+        }
         const foundProduct = foundCart.products.find(
             (product) => product.productId == productId
         );
         if (foundProduct) {
-            foundProduct.quantity = foundProduct.quantity + +quantity;
+            let netQuantityInCart = productById.stock - foundProduct.quantity
+            if (netQuantityInCart < 0) {
+                return "no stock"
+            } else {
+                foundProduct.quantity = foundProduct.quantity + +quantity;
+            }
         } else {
             foundCart.products = [
                 ...foundCart.products,

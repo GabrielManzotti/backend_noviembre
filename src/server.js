@@ -13,11 +13,13 @@ import passport from 'passport';
 import sessionRouter from './router/session.router.js';
 import messagesRouter from './router/messages.router.js'
 import ordersRouter from './router/orders.router.js'
+import loggerTest from './router/loggerTest.router.js'
 import config from "./config.js"
 import './passport.js'
 import './db/config.js'
 import dotenv from 'dotenv'
 import { errorMiddleware } from './errors/error.middleware.js';
+import { logger } from './winston.js';
 
 
 dotenv.config()
@@ -56,6 +58,8 @@ app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
 //routes
+
+
 app.use('/api/products', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/users', usersRouter)
@@ -63,13 +67,13 @@ app.use('/api', viewsRouter)
 app.use('/api/sessions', sessionRouter)
 app.use('/api/messages', messagesRouter)
 app.use('/api/orders', ordersRouter)
+app.use('/api/loggerTest', loggerTest)
 
 app.use(errorMiddleware)
 
 
-
 const httpServer = app.listen(8080, () => {
-    console.log('Escuchando al puerto 8080')
+    logger.info('Escuchando al puerto 8080')
 })
 
 //websocket -server

@@ -1,5 +1,6 @@
 import objServices from "../services/cart.service.js";
 import { errorMiddleware } from "../errors/error.middleware.js";
+import { logger } from "../winston.js";
 
 const createCart = async (req, res) => {
     const cart = await objServices.createOne()
@@ -20,6 +21,7 @@ const findAllCarts = async (req, res) => {
 }
 
 const findCartById = async (req, res) => {
+    logger.info("probando info")
     const idCart = req.params.cid
     try {
         const cart = await objServices.findById(idCart, ["title", "description", "price"])
