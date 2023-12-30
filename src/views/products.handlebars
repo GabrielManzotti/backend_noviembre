@@ -7,6 +7,10 @@
   <button onclick="location.href='/api/backOfficeHome'">BACK OFFICE</button>
   <p></p>
 {{/if}}
+{{#if isPremium}}
+  <button onclick="location.href='/api/backOfficeHome'">BACK OFFICE</button>
+  <p></p>
+{{/if}}
 <button onclick="location.href='/api/sessions/logout'">Logout</button>
 <p></p>
 <button onclick="location.href='/api/purchase'">CART</button>

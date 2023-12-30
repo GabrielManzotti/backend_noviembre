@@ -42,7 +42,7 @@ const updateRoleController = async (req, res) => {
     if (!role || !userId) {
         return res.status(400).json({ message: 'Some data is missing' })
     }
-    if (role !== "user" && role !== "admin") {
+    if (role !== "user" && role !== "admin" && role !== "premium") {
         return res.status(400).json({ message: 'Role format not allowed' })
     }
     const userExist = await obj.findById(userId)
@@ -74,7 +74,21 @@ const getAdminsUsers = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error })
     }
+}
 
+const findByEmail = async (req, res) => {
+    const { email } = req.params
+    console.log(email);
+    try {
+        const result = await obj.findByEmail(email)
+        if (result) {
+            return res.status(200).json({ message: "User", user: result })
+        } else {
+            return res.status(200).json({ message: "User not found" })
+        }
+    } catch (error) {
+        res.status(500).json({ error })
+    }
 }
 
 const objCtrollers = {
@@ -83,7 +97,8 @@ const objCtrollers = {
     countUsersController,
     updateRoleController,
     findUserById,
-    getAdminsUsers
+    getAdminsUsers,
+    findByEmail
 }
 
 export default objCtrollers

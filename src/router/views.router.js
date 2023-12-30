@@ -2,8 +2,10 @@ import { Router } from "express";
 import { productsManager } from "../dao/managers/productsManager.js";
 import { cartsManager } from "../dao/managers/cartsManager.js";
 import { ordersManager } from "../dao/managers/ordersManager.js";
-import { authMiddleware } from "../midldlewares/auth.middleware.js";
+import { authMiddleware, authMiddlewareTwoRoles } from "../midldlewares/auth.middleware.js";
 import { usersManager } from "../dao/managers/usersManager.js";
+import { jwtValidation } from "../utils.js";
+import { logger } from "../winston.js";
 
 const router = Router()
 
@@ -13,8 +15,10 @@ router.get("/", async (req, res) => {
         const cart = req.user.cart._id.toString();
         const role = req.user.role
         let isAdmin
+        let isPremium
         role === 'admin' ? isAdmin = true : isAdmin = false
-        res.render('products', { results, first_name: req.user.first_name, email: req.user.email, cart, role, isAdmin })
+        role === 'premium' ? isPremium = true : isPremium = false
+        res.render('products', { results, first_name: req.user.first_name, email: req.user.email, cart, role, isAdmin, isPremium })
     } catch (error) {
         res.render("login")
     }
@@ -53,7 +57,7 @@ router.get("/github", (req, res) => {
     res.render("github")
 })
 
-router.get("/manageProducts", authMiddleware('admin'), (req, res) => {
+router.get("/manageProducts", authMiddlewareTwoRoles('admin', 'premium'), (req, res) => {
     res.render('createProducts')
 })
 
@@ -139,7 +143,7 @@ router.get("/checkOut", async (req, res) => {
     }
 })
 
-router.get("/backOfficeHome", authMiddleware('admin'), (req, res) => {
+router.get("/backOfficeHome", authMiddlewareTwoRoles('admin', 'premium'), (req, res) => {
     res.render("backOfficeHome")
 })
 
@@ -163,6 +167,26 @@ router.get('/libraryOrders', authMiddleware('admin'), async (req, res) => {
         const totalAmountOrders = await ordersManager.totalAmountOrders()
         let total = totalAmountOrders[0].total
         res.render("libraryOrders", { total })
+    } catch (error) {
+        res.render("login")
+    }
+})
+
+router.get('/checkEmail', async (req, res) => {
+    try {
+        res.render("checkEmailRestore")
+    } catch (error) {
+        res.render("login")
+    }
+})
+
+router.get('/restoreCredential/:token', async (req, res) => {
+    const { token } = req.params
+    const validate = jwtValidation(token)
+    const name = validate.first_name
+    const email = validate.email
+    try {
+        res.render("restorePassword", { name, email })
     } catch (error) {
         res.render("login")
     }

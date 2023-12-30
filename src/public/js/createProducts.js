@@ -28,6 +28,7 @@ createProduct.onsubmit = (e) => {
         category: document.getElementById("category").value,
         thumbnail: document.getElementById("thumbnail").value,
         status: true,
+        owner: document.getElementById("owner").value
     };
     if (validaProd(newProduct)) {
         addNewProduct(newProduct)
@@ -104,7 +105,6 @@ deleteProduct.onsubmit = (e) => {
     let id = deleteId.value
     if (validaDelete(id)) {
         deleteAProduct(id)
-        window.location.replace("http://localhost:8080/api/succesModifyDataProduct")
     } else {
         errorDelete.innerHTML = `<p>Some data is missing</p>`
     }
@@ -118,6 +118,12 @@ async function deleteAProduct(id) {
                 "Content-Type": "application/json",
             },
         });
+        const response = await result.json();
+        if (response.message === "no found products") {
+            errorDelete.innerHTML = `<p>No found product. Please, check the input id</p>`
+        } else {
+            errorDelete.innerHTML = response.message
+        }
     } catch (error) {
         error
     }

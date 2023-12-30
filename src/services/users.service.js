@@ -6,7 +6,7 @@ const findById = (id) => {
 }
 
 const findByEmail = (email) => {
-    const result = usersManager.findOne(email)
+    const result = usersManager.findByEmail(email)
     return result
 }
 

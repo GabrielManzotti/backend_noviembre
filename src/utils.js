@@ -19,8 +19,30 @@ export const compareData = async (data, hashData) => {
 }
 
 export const generateToken = (user) => {
-    const token = jwt.sign(user, JWT_SECRET, { expiresIn: 300 })
+    const token = jwt.sign(user, JWT_SECRET, { expiresIn: 3000 })
     return token;
+}
+
+export const jwtValidation = (token) => {
+    const tokenValidate = jwt.verify(token, JWT_SECRET)
+    return tokenValidate
+}
+
+export const generateUrl = (user) => {
+    const url = jwt.sign(user, JWT_SECRET, { expiresIn: 100 })
+    return url;
+}
+
+export const sendEmailRestoreCredential = async (obj) => {
+    const options = {
+        from: 'manzotti.gabriel@gmail.com',
+        to: obj.email,
+        subject: `Hi ${obj.first_name} restore your credentials`,
+        text: `<button onclick="location.href='http://localhost:8080/api/restoreCredential'">RESTORE CREDENTIALS</button>`,
+        html: `<button onclick="location.href='http://localhost:8080/api/restoreCredential'">RESTORE CREDENTIALS</button>`
+    }
+
+    await transporter.sendMail(options);
 }
 
 export const sendEmail = async (subject, email, first_name, last_name, text) => {

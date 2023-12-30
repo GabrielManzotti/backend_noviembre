@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { productsManager } from '../dao/managers/productsManager.js'
-import { authMiddleware } from "../midldlewares/auth.middleware.js";
+import { authMiddleware, authMiddlewareTwoRoles } from "../midldlewares/auth.middleware.js";
 import obj from '../controllers/products.controller.js'
 import { generateArrayProduct } from '../faker.js';
 import { errorMiddleware } from '../errors/error.middleware.js';
@@ -8,7 +8,7 @@ import { errorMiddleware } from '../errors/error.middleware.js';
 const router = Router()
 
 
-router.delete('/delete/:idProduct', authMiddleware('admin'), obj.deleteProduct)
+router.delete('/delete/:idProduct', authMiddlewareTwoRoles('admin', 'premium'), obj.deleteProduct)
 router.post('/', authMiddleware('admin'), obj.createProduct)
 router.get('/', obj.findAllProducts)
 router.get('/category/:category/price/:price', obj.findProductsByCategoryAndPrice)

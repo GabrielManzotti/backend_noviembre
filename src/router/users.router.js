@@ -32,6 +32,7 @@ router.get('/count/countAll', obj.countUsersController)
 router.put('/updateRole', obj.updateRoleController)
 router.get('/:idUser', authMiddleware('admin'), obj.findUserById)
 router.get('/admins/getAdmins', obj.getAdminsUsers)
+router.get('/find/findByEmail/:email', obj.findByEmail)
 
 export default router
 

@@ -46,8 +46,13 @@ async function addProductInCart(quantity) {
             body: JSON.stringify(quantity),
         })
         const body = await result.json();
+        console.log("cart", body.cart)
+        console.log("mess", body.message);;
         if (body.Cart === "no stock") {
             error.innerHTML = "We don't have stock for this quantity"
+        }
+        if (body.message === "you are the owner of this product") {
+            error.innerHTML = body.message
         }
         else {
             error.innerHTML = "Product added succesfully"

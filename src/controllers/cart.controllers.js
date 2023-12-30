@@ -1,6 +1,7 @@
 import objServices from "../services/cart.service.js";
 import { errorMiddleware } from "../errors/error.middleware.js";
 import { logger } from "../winston.js";
+import { productsManager } from "../dao/managers/productsManager.js";
 
 const createCart = async (req, res) => {
     const cart = await objServices.createOne()
@@ -21,7 +22,6 @@ const findAllCarts = async (req, res) => {
 }
 
 const findCartById = async (req, res) => {
-    logger.info("probando info")
     const idCart = req.params.cid
     try {
         const cart = await objServices.findById(idCart, ["title", "description", "price"])
@@ -32,8 +32,16 @@ const findCartById = async (req, res) => {
 }
 
 const addInCartAProduct = async (req, res) => {
+    let email = req.user.email
     let cartId = req.params.cid
     let productId = req.params.pid
+    const product = await productsManager.findById(productId)
+    const owner = product.owner
+    if ((owner !== "admin") || (owner !== "undefined")) {
+        if (owner !== email) {
+            return res.status(400).json({ message: "you are the owner of this product" })
+        }
+    }
     const { quantity } = req.body
     try {
         const result = await objServices.addAProductInCart(cartId, productId, quantity)

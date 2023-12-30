@@ -1,15 +1,34 @@
 import objService from "../services/products.service.js";
 import { errorMiddleware } from "../errors/error.middleware.js";
 import { errorMessages } from "../errors/error.enum.js";
+import { usersManager } from "../dao/managers/usersManager.js";
+import { productsManager } from "../dao/managers/productsManager.js";
 
 
 const createProduct = async (req, res, next) => {
-    const { title, description, code, price, status, stock, category, thumbnail, } = req.body
+    const { title, description, code, price, status, stock, category, thumbnail, owner } = req.body
     if (!title || !description || !price || !code || !stock || !status || !category) {
         return res.status(400).json({ message: 'Some data is missing' })
     }
+    let ownerBody = owner
+    if (ownerBody === "true") {
+        ownerBody = req.user.email
+    } else {
+        ownerBody = "admin"
+    }
+    const obj = {
+        title: title,
+        description: description,
+        code: code,
+        price: price,
+        status: status,
+        stock: stock,
+        category: category,
+        thumbnail: thumbnail,
+        owner: ownerBody
+    }
     try {
-        const createdProduct = await objService.createOne(req.body)
+        const createdProduct = await objService.createOne(obj)
         res.status(200).json({ message: "product created", product: createdProduct })
     } catch (error) {
         error = error.errorMessages.PRODUCTS_CREATE
@@ -23,7 +42,7 @@ const findAllProducts = async (req, res, next) => {
         if (products) {
             return res.status(200).json({ message: "products", Products: products })
         } else {
-            return res.status(404).json({ message: "no found produducts" })
+            return res.status(404).json({ message: "no found products" })
         }
     } catch (error) {
         error = error.errorMessages.PRODUCTS_FIND_ALL_NOT_FOUND
@@ -39,7 +58,7 @@ const findProductsByCategoryAndPrice = async (req, res, next) => {
         if (result) {
             return res.status(200).json({ message: "Product", Products: result })
         } else {
-            return res.status(400).json({ message: "no found produducts" })
+            return res.status(400).json({ message: "no found products" })
         }
     } catch (error) {
         error = error.errorMessages.PRODUCTS_BY_CATEGORY_AND_PRICE_NOT_FOUND
@@ -54,7 +73,7 @@ const findProductByPrice = async (req, res, next) => {
         if (products) {
             return res.status(200).json({ message: "Products", Products: products })
         } else {
-            return res.status(404).json({ message: "no found produducts" })
+            return res.status(404).json({ message: "no found products" })
         }
     } catch (error) {
         error = errorMessages.PRODUCTS_BY_PRICE_NOT_FOUND
@@ -86,9 +105,7 @@ const findProductByCategory = async (req, res, next) => {
         if (result) {
             return res.status(200).json({ message: "Product", Products: result })
         } else {
-
-
-            return res.status(400).json({ message: "no found produducts" })
+            return res.status(400).json({ message: "no found products" })
         }
     } catch (error) {
         error = errorMessages.PRODUCTS_BY_CATEGORY
@@ -109,9 +126,25 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res, next) => {
     const { idProduct } = req.params
+    const emailSession = req.user.email
+    const product = await productsManager.findById(idProduct)
+    if (product.owner !== "admin") {
+        if (product.owner !== emailSession) {
+            return res.status(400).json({ message: "you are not the owner of this product" })
+        }
+    } else {
+        if (req.user.role !== "admin") {
+            return res.status(400).json({ message: "you have to be admin to deleted this product" })
+        }
+    }
     try {
         const deletedProduct = await objService.deleteOne(idProduct);
-        return res.status(200).json({ message: "Product deleted", Product: deletedProduct })
+        if (deletedProduct === "deleted") {
+            return res.status(200).json({ message: "Product deleted", Product: deletedProduct })
+        }
+        if (deletedProduct === "No product") {
+            return res.status(200).json({ message: "no found products" })
+        }
     } catch (error) {
         error = errorMessages.PRODUCTS_DELETE
         next(error)

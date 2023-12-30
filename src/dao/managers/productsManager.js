@@ -77,7 +77,12 @@ class ProductManager {
         return productsModel.updateOne({ _id: id }, obj);
     }
     async deleteOne(id) {
-        return productsModel.deleteOne({ _id: id });
+        const result = await productsModel.deleteOne({ _id: id });
+        if (result.deletedCount !== 0) {
+            return "deleted"
+        } else {
+            return "No product"
+        }
     }
 }
 export const productsManager = new ProductManager();
