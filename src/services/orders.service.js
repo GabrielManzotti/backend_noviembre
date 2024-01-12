@@ -20,8 +20,8 @@ const checkStock = (idCart) => {
     return result
 }
 
-const totalAmountOrders = () => {
-    const result = ordersManager.totalAmountOrders()
+const totalAmountOrders = (since, to) => {
+    const result = ordersManager.totalAmountOrders(since, to)
     return result
 }
 

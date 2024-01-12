@@ -41,7 +41,7 @@ class UsersManager {
         role = role
         const result = await usersModel.aggregate([
             { $match: { role: role } },
-            { $count: "Total de registros" },
+            { $count: "Total users with the role" },
         ])
         return result
     }
@@ -56,7 +56,7 @@ class UsersManager {
 
     async countUsers() {
         const result = await usersModel.aggregate([
-            { $count: "Total de registros" },
+            { $count: "Total users in database" },
         ])
         return result
     }

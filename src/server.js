@@ -20,6 +20,8 @@ import './db/config.js'
 import dotenv from 'dotenv'
 import { errorMiddleware } from './errors/error.middleware.js';
 import { logger } from './winston.js';
+import swaggerUi from 'swagger-ui-express'
+import { swaggerSetup } from './swaggerSpecs.js';
 
 
 dotenv.config()
@@ -68,6 +70,8 @@ app.use('/api/sessions', sessionRouter)
 app.use('/api/messages', messagesRouter)
 app.use('/api/orders', ordersRouter)
 app.use('/api/loggerTest', loggerTest)
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSetup))
+
 
 app.use(errorMiddleware)
 

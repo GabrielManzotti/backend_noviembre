@@ -12,20 +12,17 @@ async function getProduct() {
         if (body) {
             products = body.Product;
             productsList.innerHTML = `<div>
-            <li>
                 <p>Title: ${products.title}</p> 
                 <p>Description: ${products.description}</p> 
                 <p>Price: ${products.price}</p> 
                 <p>Category: ${products.category}</p>
-              </li>
-              `
+    `
         };
     } catch (error) {
         error
     }
 }
 getProduct()
-
 
 addToCartForm.onsubmit = (e) => {
     e.preventDefault()
@@ -46,15 +43,13 @@ async function addProductInCart(quantity) {
             body: JSON.stringify(quantity),
         })
         const body = await result.json();
-        console.log("cart", body.cart)
-        console.log("mess", body.message);;
         if (body.Cart === "no stock") {
             error.innerHTML = "We don't have stock for this quantity"
         }
         if (body.message === "you are the owner of this product") {
             error.innerHTML = body.message
         }
-        else {
+        if (body.message === "Product added") {
             error.innerHTML = "Product added succesfully"
         }
     } catch (error) {

@@ -1,0 +1,299 @@
+paths:
+  /api/products:
+    get:
+      summary: get all products
+      tags:
+        - Products
+      responses:
+        "200":
+          description: products
+        "404":
+          description: no found products
+        "500":
+          description: Find all products id endpoint error
+    post:
+      summary: create a new product in database
+      tags:
+        - Products
+      requestBody:
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/createProduct"
+      responses:
+        "200":
+          description: product created
+        "500":
+          description: Create products id endpoint error
+
+  /api/products/{id}:
+    get:
+      summary: get product by id
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          description: product identifier
+      responses:
+        "200":
+          description: product
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/Product"
+              example:
+                id: abcd1234567
+                title: Gin Plymouth 550ml
+                description: English Gin 550ml
+                code: abc1
+                price: 10000,00
+                status: valid
+                stock: 20
+                category: gin
+                thumnail: https://www.thecocktaildb.com/images/ingredients/Gin.png
+                owner: admin
+        "404":
+          description: Product by id not found
+        "500":
+          description: Product by id endpoint error
+
+  /api/products/delete/{id}:
+    delete:
+      summary: delete a product in database shearching by id (only admins and premiums users)
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          description: product identifier
+      responses:
+        "200":
+          description: Product deleted
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#components/schemas/Product"
+              example:
+                Product: deleted
+                message: product deleted
+        "404":
+          description: no found products
+        "400":
+          description: you are not the owner of this product / you have to be admin to deleted this product
+        "500":
+          description: Delete product endpoint not found
+
+  /api/products/category/{category}/price/{price}:
+    get:
+      summary: filter in database by category and price
+      parameters:
+        - name: category
+          in: path
+          description: category identifier
+        - name: price
+          in: path
+          description: price amount
+      tags:
+        - Products
+      responses:
+        "200":
+          description: products
+        "404":
+          description: no found products
+        "500":
+          description: Products by category and price id endpoint error
+
+  /api/products/price/{price}:
+    get:
+      summary: filter in database by price
+      parameters:
+        - name: price
+          in: path
+          description: price amount
+      tags:
+        - Products
+      responses:
+        "200":
+          description: products
+        "404":
+          description: no found products
+        "500":
+          description: Products by price id endpoint error
+
+  /api/products/category/{category}:
+    get:
+      summary: filter in database by category
+      parameters:
+        - name: category
+          in: path
+          description: price amount
+      tags:
+        - Products
+      responses:
+        "200":
+          description: products
+        "404":
+          description: no found products
+        "500":
+          description: Products by price id endpoint error
+
+  /api/update/{idProduct}:
+    put:
+      summary: update any propertie of a document in products collection
+      tags:
+        - Products
+      parameters:
+        - name: idProduct
+          in: path
+          description: product identifier
+      requestBody:
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/updateProduct"
+      responses:
+        "200":
+          description: product updated
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/Product"
+              example:
+                id: abcd1234567
+                title: Gin Plymouth 550ml
+                description: English Gin 550ml
+                code: abc1
+                price: 10000,00
+                status: valid
+                stock: 20
+                category: gin
+                thumnail: https://www.thecocktaildb.com/images/ingredients/Gin.png
+                owner: admin
+        "500":
+          description: Update products id endpoint error
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+          required: true
+        description:
+          type: string
+          required: true
+        code:
+          type: string
+          unique: true
+          required: true
+        price:
+          type: number
+          required: true
+        status:
+          type: string
+          required: true
+        stock:
+          type: number
+          required: true
+        category:
+          type: string
+          required: true
+        thumbnail:
+          type: string
+        owner:
+          type: string
+      example:
+        id: abcd1234567
+        title: Gin Plymouth 550
+        description: English Gin 550ml
+        code: abc1
+        price: 10000,00
+        status: valid
+        stock: 20
+        category: gin
+        thumnail: https://www.thecocktaildb.com/images/ingredients/Gin.png
+        owner: admin
+  requestBodies:
+    createProduct:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+          required: true
+        description:
+          type: string
+          required: true
+        code:
+          type: string
+          unique: true
+          required: true
+        price:
+          type: number
+          required: true
+        status:
+          type: string
+          required: true
+        stock:
+          type: number
+          required: true
+        category:
+          type: string
+          required: true
+        thumbnail:
+          type: string
+        owner:
+          type: string
+      example:
+        title: Gin Plymouth 550ml
+        description: English Gin 550ml
+        code: abc1
+        price: 10000,00
+        status: valid
+        stock: 20
+        category: gin
+        thumnail: https://www.thecocktaildb.com/images/ingredients/Gin.png
+        owner: admin
+    updateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          required: true
+        description:
+          type: string
+          required: true
+        code:
+          type: string
+          unique: true
+          required: true
+        price:
+          type: number
+          required: true
+        status:
+          type: string
+          required: true
+        stock:
+          type: number
+          required: true
+        category:
+          type: string
+          required: true
+        thumbnail:
+          type: string
+        owner:
+          type: string
+      example:
+        title: Gin Plymouth 550ml
+        description: English Gin 550ml
+        code: abc1
+        price: 10000,00
+        status: valid
+        stock: 20
+        category: gin
+        thumnail: https://www.thecocktaildb.com/images/ingredients/Gin.png

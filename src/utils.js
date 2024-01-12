@@ -19,8 +19,8 @@ export const compareData = async (data, hashData) => {
 }
 
 export const generateToken = (user) => {
-    const token = jwt.sign(user, JWT_SECRET, { expiresIn: 3000 })
-    return token;
+    const token = jwt.sign(user, JWT_SECRET, { expiresIn: 300 })
+    return token
 }
 
 export const jwtValidation = (token) => {

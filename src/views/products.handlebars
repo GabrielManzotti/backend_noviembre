@@ -14,17 +14,24 @@
 <button onclick="location.href='/api/sessions/logout'">Logout</button>
 <p></p>
 <button onclick="location.href='/api/purchase'">CART</button>
-{{#each results}}
-  <p>Title: {{title}} </p>
-  <p>Description: {{description}} </p>
-  <p>Code: {{code}} </p>
-  <p>Price: {{price}} </p>
-  <p>Status: {{status}} </p>
-  <p>Category: {{category}} </p>
-  <input type="submit" id="{{_id}}" value="Agregar al carrito" />
-  <p>----------------------------</p>
+<div id="productList">
+  {{#each filteredProducts}}
+    <p>Title: {{title}} </p>
+    <p>Description: {{description}} </p>
+    <p>Code: {{code}} </p>
+    <p>Price: {{price}} </p>
+    <p>Status: {{status}} </p>
+    <p>Category: {{category}} </p>
+    <input type="submit" id="{{_id}}" value="Agregar al carrito" />
+    <p>----------------------------</p>
+  {{/each}}
+</div>
+<div id="moreProducts"></div>
 
-{{/each}}
+{{#if nextLink}}
+  <button id={{nextLink}}>More products</button>
+  <p></p>
+{{/if}}
 
 <div id="productsList"></div>
 <script type="module" src="/js/products.js"></script>

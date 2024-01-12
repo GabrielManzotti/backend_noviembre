@@ -1,0 +1,189 @@
+paths:
+  /api/cart/:
+    post:
+      summary: create a cart
+      tags:
+        - Cart
+      responses:
+        "200":
+          description: cart created
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/Cart"
+              example:
+                message: cart created
+                default: []
+                id: 65a0a678dfb34aa900f4381a
+                products: []
+
+        "404":
+          description: user not found
+        "500":
+          description: user by id endpoint not found
+    get:
+      summary: get all carts in database
+      tags:
+        - Cart
+      responses:
+        "200":
+          description: user found
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/User"
+              example:
+                message: cart created
+                default: []
+                id: 65a0a678dfb34aa900f4381a
+                products: []
+        "500":
+          description: user by id endpoint not found
+
+  /api/cart/{id}:
+    get:
+      summary: find a cart searching by id
+      tags:
+        - Cart
+      parameters:
+        - name: id
+          in: path
+          description: user identifier
+      responses:
+        "200":
+          description: user found
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/User"
+              example:
+                message: cart created
+                default: []
+                id: 65a0a678dfb34aa900f4381a
+                products: []
+        "404":
+          description: user not found
+        "500":
+          description: user by id endpoint not found
+
+  /api/cart/{cid}/product/{pid}:
+    post:
+      summary: add a product in a cart
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+        - name: pid
+          in: path
+          description: product identifier
+      requestBody:
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/addProduct"
+      responses:
+        "200":
+          description: product added
+        "404":
+          description: no stock
+        "400":
+          description: you are the owner of this product
+        "500":
+          description: addProductInCart endpoint not found
+    put:
+      summary: modified a product in a cart
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+        - name: pid
+          in: path
+          description: product identifier
+      requestBody:
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/updateProductInCart"
+      responses:
+        "200":
+          description: product modified
+        "500":
+          description: updateProductInCart endpoint not found
+    delete:
+      summary: delete a product in a cart
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+        - name: pid
+          in: path
+          description: product identifier
+      responses:
+        "200":
+          description: product deleted
+        "500":
+          description: deleteProductInCart endpoint not found
+
+  /api/cart/delete/{id}:
+    delete:
+      summary: add a product in a cart
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+      responses:
+        "200":
+          description: cart deleted
+        "500":
+          description: deleteCart endpoint not found
+
+  /api/cart/resetCart/{id}:
+    delete:
+      summary: delete and create a cart
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          description: cart identifier
+      responses:
+        "200":
+          description: cart reseted
+        "500":
+          description: resetCart endpoint not found
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        id:
+          type: strnig
+          unique: true
+        productId:
+          type: string
+          required: true
+        quantity:
+          type:
+          default: 1
+  requestBodies:
+    addProduct:
+      type: object
+      properties:
+        quantity: number
+      example:
+        quantity: 2
+    updateProductInCart:
+      type: object
+      properties:
+        quantity: number
+      example:
+        quantity: 2

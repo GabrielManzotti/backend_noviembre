@@ -5,7 +5,7 @@ const deleteAUser = async (req, res) => {
     try {
         const result = await obj.deleteOne(idUser)
         if (result === "User not found") {
-            return res.status(400).json({ message: "user not found" })
+            return res.status(404).json({ message: "user not found" })
         } else {
             return res.status(200).json({ message: "User deleted", User: result })
         }
@@ -28,7 +28,6 @@ const countUsersByRoleController = async (req, res) => {
 }
 
 const countUsersController = async (req, res) => {
-    console.log("llega a controller");
     try {
         const result = await obj.countUsers()
         return res.status(200).json({ message: "Users", Users: result })
@@ -84,7 +83,7 @@ const findByEmail = async (req, res) => {
         if (result) {
             return res.status(200).json({ message: "User", user: result })
         } else {
-            return res.status(200).json({ message: "User not found" })
+            return res.status(404).json({ message: "User not found" })
         }
     } catch (error) {
         res.status(500).json({ error })

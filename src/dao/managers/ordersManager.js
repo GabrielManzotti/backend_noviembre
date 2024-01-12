@@ -96,30 +96,17 @@ class OrdersManager {
 
     }
 
-    async totalAmountOrders() {
-        // const result = await orderModel.aggregate([
-        //     {
-        //         $group: {
-        //             _id: null,
-        //             total: {
-        //                 $sum: "$amount"
-        //             },
-        //         }
-        //     },
-
-        // ],)
-
+    async totalAmountOrders(since, to) {
         const result = await orderModel.find()
-        let prueba = "2023-12-17"
-        let compara = new Date(`${prueba}T00:00:00.000Z`)
-        let prueba2 = "2023-12-21"
-        let compara2 = new Date(`${prueba2}T00:00:00.000Z`)
+        // let sinceDate = since
+        let checkSince = new Date(`${since}T00:00:00.000Z`)
+        // let toDate = to
+        let checkTo = new Date(`${to}T00:00:00.000Z`)
         let amount = 0
         result.forEach((e) => {
             let date = e.timestampt.createdAt
             let d = new Date(date)
-            if ((d > compara) && (d < compara2)) {
-                console.log("desde", compara, "fecha orden", d, "hasta", compara2)
+            if ((d > checkSince) && (d < checkTo)) {
                 amount = e.amount + amount
             }
         })

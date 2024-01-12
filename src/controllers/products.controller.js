@@ -56,9 +56,9 @@ const findProductsByCategoryAndPrice = async (req, res, next) => {
     try {
         const result = await objService.findAgregationByCategoryAndPrice(category, price, req.query)
         if (result) {
-            return res.status(200).json({ message: "Product", Products: result })
+            return res.status(200).json({ message: "Products", Products: result })
         } else {
-            return res.status(400).json({ message: "no found products" })
+            return res.status(404).json({ message: "no found products" })
         }
     } catch (error) {
         error = error.errorMessages.PRODUCTS_BY_CATEGORY_AND_PRICE_NOT_FOUND
@@ -99,6 +99,7 @@ const findProductById = async (req, res, next) => {
 
 const findProductByCategory = async (req, res, next) => {
     const { category } = req.params
+    console.log(category);
     try {
         const result = await objService.findByCategory(category, req.query)
 
@@ -143,7 +144,7 @@ const deleteProduct = async (req, res, next) => {
             return res.status(200).json({ message: "Product deleted", Product: deletedProduct })
         }
         if (deletedProduct === "No product") {
-            return res.status(200).json({ message: "no found products" })
+            return res.status(404).json({ message: "no found products" })
         }
     } catch (error) {
         error = errorMessages.PRODUCTS_DELETE

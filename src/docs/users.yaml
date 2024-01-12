@@ -1,0 +1,222 @@
+paths:
+  /api/users/{id}:
+    get:
+      summary: get a user by id
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: user identifier
+      responses:
+        "200":
+          description: user found
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/User"
+              example:
+                id: 1234567sadf123
+                first_name: Franco
+                last_name: Orozco
+                email: forozco@mail.com
+                age: 30
+                password: $2b$10$L0HMuL016GCW9zJhXcUFzem9p1hxkDhiScktkiRy3wEQOCactF8GO
+                cart: 656cdb94c4c3a390fc63e16e
+                role: user
+                from_github: false
+                from_google: false
+        "404":
+          description: user not found
+        "500":
+          description: user by id endpoint not found
+
+  /api/users/delete/{id}:
+    delete:
+      summary: delete a user filter by id
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: user identifier
+      responses:
+        "200":
+          description: user deleted
+        "404":
+          description: user not found
+        "500":
+          description: delete user endpoint not found
+
+  /api/users/count/countByRole:
+    get:
+      summary: count the users with a specific role
+      tags:
+        - User
+      requestBody:
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/countByRole"
+      responses:
+        "200":
+          description: Total users whit the role
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/User"
+              example:
+                Total users with the role: 1
+        "500":
+          description: countByRole endpoint not found
+
+  /api/users/count/countAll:
+    get:
+      summary: count all users in dataBase
+      tags:
+        - User
+      responses:
+        "200":
+          description: total users in dataBase
+        "500":
+          description: countAll endopoint not found
+
+  /api/users/updateRole:
+    put:
+      summary: update a role user filtering by id
+      tags:
+        - User
+      requestBody:
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/updateRole"
+      responses:
+        "200":
+          description: The role has been updated for the {userId} user
+        "404":
+          description: user not found
+        "400":
+          description: some data is missing
+
+  /api/users/admins/getAdmins:
+    get:
+      summary: get all users admins in dataBase
+      tags:
+        - User
+      responses:
+        "200":
+          description: Admins
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/User"
+              example:
+                id: 1234567sadf123
+                first_name: Franco
+                last_name: Orozco
+                email: forozco@mail.com
+                age: 30
+                password: $2b$10$L0HMuL016GCW9zJhXcUFzem9p1hxkDhiScktkiRy3wEQOCactF8GO
+                cart: 656cdb94c4c3a390fc63e16e
+                role: user
+                from_github: false
+                from_google: false
+        "400":
+          description: no users admins found in dataBase
+        "500":
+          description: getAdmins endpoint not found in dataBase
+
+  /api/users/findByEmail/{email}:
+    get:
+      summary: find a user by email
+      tags:
+        - User
+      parameters:
+        - name: email
+          in: path
+          description: user identifier
+      responses:
+        "200":
+          description: User
+          content:
+            aplication/json:
+              schemas:
+                $ref: "#/components/schemas/User"
+              example:
+                id: 1234567sadf123
+                first_name: Franco
+                last_name: Orozco
+                email: forozco@mail.com
+                age: 30
+                password: $2b$10$L0HMuL016GCW9zJhXcUFzem9p1hxkDhiScktkiRy3wEQOCactF8GO
+                cart: 656cdb94c4c3a390fc63e16e
+                role: user
+                from_github: false
+                from_google: false
+        "404":
+          description: user not found
+        "500":
+          description: findByEmail endpoint not found
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          unique: true
+        first_name:
+          type: string
+          required: true
+        last_name:
+          type: string
+          required: true
+        email:
+          type: string
+          required: true
+          unique: true
+        age:
+          type: number
+          required: true
+        password:
+          type: string
+          required: true
+        cart:
+          type: objectId
+        role:
+          type: string
+          default: "user"
+        from_github:
+          type: boolean
+          default: false
+        from_google:
+          type: boolean
+          default: false
+      example:
+        id: 1234567sadf123
+        first_name: Franco
+        last_name: Orozco
+        email: forozco@mail.com
+        age: 30
+        password: $2b$10$L0HMuL016GCW9zJhXcUFzem9p1hxkDhiScktkiRy3wEQOCactF8GO
+        cart: 656cdb94c4c3a390fc63e16e
+        role: user
+        from_github: false
+        from_google: false
+  requestBodies:
+    countByRole:
+      type: object
+      properties:
+        role: string
+      example:
+        role: admin
+    updateRole:
+      type: object
+      properties:
+        role: string
+        userId: string
+      example:
+        role: premium
+        userId: 1234542babdabs123455

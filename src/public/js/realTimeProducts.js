@@ -124,7 +124,7 @@ async function deleteProduct(productId) {
 
 function printProducts() {
     const productsToPrint = products.map(
-        (product) => `<li>
+        (product) => `
         <p>ID: ${product.id}</p> 
         <p>Title: ${product.title}</p> 
         <p>Description: ${product.description}</p> 
@@ -132,9 +132,11 @@ function printProducts() {
         <p>Code: ${product.code}</p> 
         <p>Stock: ${product.stock}</p>
         <p>Category: ${product.category}</p>
-      </li>`
+        <p>Category: ${product.category}</p>
+        <p>----------------------------</p>
+        <input type="submit" id="${_id}" value="Agregar al carrito" />
+        `
     )
-        .join(" ");
     productsList.innerHTML = productsToPrint;
 }
 

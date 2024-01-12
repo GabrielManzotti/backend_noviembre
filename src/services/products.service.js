@@ -1,7 +1,7 @@
 import { productsManager } from "../dao/managers/productsManager.js";
 
-const findAll = () => {
-    const result = productsManager.findAll()
+const findAll = (opt) => {
+    const result = productsManager.findAll(opt)
     return result
 }
 
@@ -10,7 +10,8 @@ const find = () => {
     return result
 }
 
-const findByCategory = () => {
+const findByCategory = (category, opt) => {
+    console.log("service", category);
     const result = productsManager.findByCategory(category, opt)
     return result
 }

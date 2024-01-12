@@ -7,6 +7,6 @@ router.post('/ticket', obj.createOrder)
 router.get('/', obj.getAllOrders)
 router.put('/:cid/purchase', obj.purchaseCart)
 router.get('/checkStock/:cid', obj.checkStock)
-router.get('/stadistics/totalAmountOrders', obj.totalAmountOrders)
+router.get('/stadistics/totalAmountOrders/since/:sin/to/:to', obj.totalAmountOrders)
 
 export default router

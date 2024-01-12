@@ -19,6 +19,7 @@ class ProductManager {
     }
 
     async findByCategory(category, opt) {
+        console.log("category", category);
         const result = await productsModel.paginate({ category: category }, opt)
         const info = {
             count: result.totalDocs,

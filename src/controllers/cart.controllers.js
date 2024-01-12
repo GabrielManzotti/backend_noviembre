@@ -37,7 +37,7 @@ const addInCartAProduct = async (req, res) => {
     let productId = req.params.pid
     const product = await productsManager.findById(productId)
     const owner = product.owner
-    if ((owner !== "admin") || (owner !== "undefined")) {
+    if (owner !== "admin" && owner !== undefined) {
         if (owner !== email) {
             return res.status(400).json({ message: "you are the owner of this product" })
         }
@@ -45,7 +45,12 @@ const addInCartAProduct = async (req, res) => {
     const { quantity } = req.body
     try {
         const result = await objServices.addAProductInCart(cartId, productId, quantity)
-        return res.status(200).json({ message: "Product added", Cart: result })
+        if (result === "no stock") {
+            return res.status(200).json({ message: result, Cart: result })
+        }
+        else {
+            return res.status(200).json({ message: "Product added", Cart: result })
+        }
     } catch (error) {
         return res.status(500).json({ message: "error" })
     }

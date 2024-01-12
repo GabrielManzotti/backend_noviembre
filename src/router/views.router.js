@@ -11,14 +11,30 @@ const router = Router()
 
 router.get("/", async (req, res) => {
     try {
-        const results = await productsManager.find({})
+        const results = await productsManager.findAll({})
+        const products = results.results
+        const info = results.info
+        let nextLink
+        info.nextPage === true ? nextLink = info.nextLink : null
+        let filteredProducts = []
+        products.forEach(async (e) => {
+            let title = e.title
+            let description = e.description
+            let price = e.price
+            let _id = e._id.toString()
+            let code = e.code
+            let status = e.status
+            let category = e.category
+            let product = { title, description, code, price, _id, category, status }
+            filteredProducts.push(product)
+        })
         const cart = req.user.cart._id.toString();
         const role = req.user.role
         let isAdmin
         let isPremium
         role === 'admin' ? isAdmin = true : isAdmin = false
         role === 'premium' ? isPremium = true : isPremium = false
-        res.render('products', { results, first_name: req.user.first_name, email: req.user.email, cart, role, isAdmin, isPremium })
+        res.render('products', { nextLink, filteredProducts, first_name: req.user.first_name, email: req.user.email, cart, role, isAdmin, isPremium })
     } catch (error) {
         res.render("login")
     }
@@ -113,16 +129,18 @@ router.get("/checkStock", async (req, res) => {
         let filteredProductsWithStock = []
         let product = {}
         let total = 0
+        let totalFormat
         without_stock.forEach(async (e) => {
             product = { title: e.title, description: e.description, price: e.price }
             filteredProducts.push(product)
         })
         with_stock.forEach(async (e) => {
-            total = total + (e.quantity * e.price)
+            total = (total + (e.quantity * e.price))
+            totalFormat = total.toLocaleString()
             product = { title: e.title, description: e.description, price: e.price, quantity: e.quantity }
             filteredProductsWithStock.push(product)
         })
-        res.render('checkStock', { filteredProducts, filteredProductsWithStock, total })
+        res.render('checkStock', { filteredProducts, filteredProductsWithStock, totalFormat })
     } catch (error) {
 
     }
@@ -164,9 +182,7 @@ router.get("/generateAdmins", authMiddleware('admin'), async (req, res) => {
 
 router.get('/libraryOrders', authMiddleware('admin'), async (req, res) => {
     try {
-        const totalAmountOrders = await ordersManager.totalAmountOrders()
-        let total = totalAmountOrders[0].total
-        res.render("libraryOrders", { total })
+        res.render("libraryOrders")
     } catch (error) {
         res.render("login")
     }

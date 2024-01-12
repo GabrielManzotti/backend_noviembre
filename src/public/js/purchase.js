@@ -24,10 +24,6 @@ async function deleteProductById(product) {
                 "Content-Type": "application/json",
             },
         });
-        // if (result) {
-        // socketClient.emit("getProducts");
-        // console.log(result);
-        // }
     } catch (error) {
         error
     }

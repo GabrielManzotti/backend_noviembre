@@ -39,11 +39,13 @@ const checkStock = async (req, res) => {
 }
 
 const totalAmountOrders = async (req, res) => {
+    const { sin } = req.params
+    const { to } = req.params
     try {
-        const result = await objServices.totalAmountOrders()
+        const result = await objServices.totalAmountOrders(sin, to)
         res.status(200).json({ message: "Total amount orders", Total: result })
     } catch (error) {
-        res.status(500).json({ message: "error" })
+        res.status(500).json({ message: "error!" })
     }
 }
 

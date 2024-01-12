@@ -1,4 +1,12 @@
 <h4>Library orders</h4>
-<p>Total amount orders so far: <strong>${{total}}</strong></p>
-
+<form id="getOrders">
+<input type="date" name="since" id="since" placeholder="dd-mm-yyyy" />
+<input type="date" name="to" id="to" placeholder="dd-mm-yyyy" />
+<p></p>
+<input type="submit" value="GET TOTAL" />
+<p></p>
+<div id="error"></div>
+<p></p>
 <button onclick="location.href='/api/'">BACK TO HOME</button>
+
+<script type="module" src="/js/libraryOrders.js"></script>
