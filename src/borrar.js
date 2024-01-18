@@ -22,7 +22,6 @@ async function checkEmail(email) {
             },
         });
         const body = await result.json();
-        console.log(body.user);
         const obj = {
             email: body.user.email,
             name: body.user.first_name

@@ -19,7 +19,6 @@ class ProductManager {
     }
 
     async findByCategory(category, opt) {
-        console.log("category", category);
         const result = await productsModel.paginate({ category: category }, opt)
         const info = {
             count: result.totalDocs,
@@ -75,7 +74,9 @@ class ProductManager {
         return product
     }
     async updateOne(id, obj) {
-        return productsModel.updateOne({ _id: id }, obj);
+        const result = await productsModel.updateOne({ _id: id }, obj);
+        const product = await productsModel.findById(id)
+        return product
     }
     async deleteOne(id) {
         const result = await productsModel.deleteOne({ _id: id });

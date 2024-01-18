@@ -8,7 +8,6 @@ window.addEventListener('click', function (e) {
         e.preventDefault()
         let id = e.target.id
         let dom = e.target.value
-        console.log(dom);
         if (dom === "DELETE") {
             deleteProductById(id)
         }

@@ -11,7 +11,6 @@ const find = () => {
 }
 
 const findByCategory = (category, opt) => {
-    console.log("service", category);
     const result = productsManager.findByCategory(category, opt)
     return result
 }

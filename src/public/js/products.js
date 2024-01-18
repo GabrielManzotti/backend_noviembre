@@ -26,7 +26,6 @@ window.addEventListener('click', function (e) {
         let id = e.target.id
         let dom = e.target.closest("button").textContent
         if (dom === "More products") {
-            console.log("antes de print");
             printMoreProducts(id)
         }
     }
@@ -34,7 +33,6 @@ window.addEventListener('click', function (e) {
 })
 
 async function printMoreProducts(id) {
-    console.log("dentro de print", id);
     try {
         const result = await fetch(`${id}`, {
             method: "GET",

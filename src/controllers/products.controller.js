@@ -31,7 +31,7 @@ const createProduct = async (req, res, next) => {
         const createdProduct = await objService.createOne(obj)
         res.status(200).json({ message: "product created", product: createdProduct })
     } catch (error) {
-        error = error.errorMessages.PRODUCTS_CREATE
+        error
         next(error)
     }
 }
@@ -99,7 +99,6 @@ const findProductById = async (req, res, next) => {
 
 const findProductByCategory = async (req, res, next) => {
     const { category } = req.params
-    console.log(category);
     try {
         const result = await objService.findByCategory(category, req.query)
 

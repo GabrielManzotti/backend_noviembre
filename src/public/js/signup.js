@@ -30,8 +30,6 @@ async function addNewUser(user) {
             },
             body: JSON.stringify(user),
         });
-        console.log(user)
-
     } catch (error) {
         error
     }

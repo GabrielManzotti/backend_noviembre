@@ -77,7 +77,6 @@ const getAdminsUsers = async (req, res) => {
 
 const findByEmail = async (req, res) => {
     const { email } = req.params
-    console.log(email);
     try {
         const result = await obj.findByEmail(email)
         if (result) {
