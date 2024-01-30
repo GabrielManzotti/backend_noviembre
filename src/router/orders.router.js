@@ -8,5 +8,6 @@ router.get('/', obj.getAllOrders)
 router.put('/:cid/purchase', obj.purchaseCart)
 router.get('/checkStock/:cid', obj.checkStock)
 router.get('/stadistics/totalAmountOrders/since/:sin/to/:to', obj.totalAmountOrders)
+router.get('/stadistics/ordersByCustomer/since/:sin/to/:to/id/:id', obj.ordersByCustomer)
 
 export default router

@@ -27,6 +27,13 @@
 {{#if filteredProducts}}
   <button onclick="location.href='/api/checkStock'">CONTINUE TO PURCHASE</button>
   <p></p>
+  <button
+    type="submit"
+    onclick="location.href='/api/'"
+    value="DELETEALL"
+    id="{{idCart}}"
+  >DELETE ALL</button>
+  <p></p>
 {{/if}}
 
 <button onclick="location.href='/api'">BACK TO HOME</button>

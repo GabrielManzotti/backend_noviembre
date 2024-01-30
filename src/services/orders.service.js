@@ -25,12 +25,18 @@ const totalAmountOrders = (since, to) => {
     return result
 }
 
+const ordersByCustomer = (id, since, to) => {
+    const result = ordersManager.ordersByCustomer(id, since, to)
+    return result
+}
+
 const obj = {
     createOrder,
     getAllOrders,
     purchaseCart,
     checkStock,
-    totalAmountOrders
+    totalAmountOrders,
+    ordersByCustomer
 }
 
 export default obj

@@ -88,7 +88,6 @@ class CartManager {
         }
     }
 
-
     async resetProductsInCart(cartId, email) {
         try {
             const deleteCart = await cartsManager.deleteOne(cartId)
@@ -98,6 +97,18 @@ class CartManager {
             userByEmail.cart = newCarId
             await userByEmail.save()
             return newCar
+        } catch (error) {
+            error
+        }
+    }
+
+    async deleteAllProducts(cartId) {
+        try {
+            const foundCart = await cartsModel.findById(cartId)
+            foundCart.products = []
+            await foundCart.save()
+            return foundCart
+
         } catch (error) {
             error
         }

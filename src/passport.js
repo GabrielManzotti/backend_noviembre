@@ -30,6 +30,11 @@ passport.use("signup", new LocalStrategy({
         const hashedPassword = await hashData(password)
         const createdUser = await usersManager.createOne({ ...req.body, password: hashedPassword, cart: createdCart._id })
         await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
+        const timeTranscurred = Date.now();
+        const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
+        userDB.last_connection.date = today
+        userDB.last_connection.action = "login"
+        await userDB.save()
         done(null, createdUser)
     } catch (error) {
         done(error)
@@ -48,6 +53,11 @@ passport.use("login", new LocalStrategy({
         if (!comparePassword) {
             return done(null, false)
         }
+        const timeTranscurred = Date.now();
+        const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
+        userDB.last_connection.date = today
+        userDB.last_connection.action = "login"
+        await userDB.save()
         done(null, userDB)
     } catch (error) {
         done(error)
@@ -65,6 +75,11 @@ passport.use("github", new GithubStrategy({
         //login
         if (userDB) {
             if (userDB.from_github) {
+                const timeTranscurred = Date.now();
+                const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
+                userDB.last_connection.date = today
+                userDB.last_connection.action = "login"
+                await userDB.save()
                 return done(null, userDB)
             } else {
                 return done(null, false)
@@ -82,6 +97,11 @@ passport.use("github", new GithubStrategy({
         const createdCart = await cartsManager.createOne()
         const createdUser = await usersManager.createOne({ ...newUser, cart: createdCart._id })
         await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
+        const timeTranscurred = Date.now();
+        const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
+        userDB.last_connection.date = today
+        userDB.last_connection.action = "login"
+        await userDB.save()
         done(null, createdUser)
     } catch (error) {
         done(error)
@@ -99,6 +119,11 @@ passport.use('google', new GoogleStrategy({
         //login
         if (userDB) {
             if (userDB.from_google) {
+                const timeTranscurred = Date.now();
+                const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
+                userDB.last_connection.date = today
+                userDB.last_connection.action = "login"
+                await userDB.save()
                 return done(null, userDB)
             } else {
                 return done(null, false)
@@ -116,6 +141,11 @@ passport.use('google', new GoogleStrategy({
         const createdCart = await cartsManager.createOne()
         const createdUser = await usersManager.createOne({ ...newUser, cart: createdCart._id })
         await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
+        const timeTranscurred = Date.now();
+        const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
+        userDB.last_connection.date = today
+        userDB.last_connection.action = "login"
+        await userDB.save()
         done(null, createdUser)
     } catch (error) {
         done(error)

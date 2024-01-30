@@ -49,12 +49,26 @@ const totalAmountOrders = async (req, res) => {
     }
 }
 
+const ordersByCustomer = async (req, res) => {
+    const { sin } = req.params
+    const { to } = req.params
+    const { id } = req.params
+    try {
+        const result = await objServices.ordersByCustomer(id, sin, to)
+        res.status(200).json({ message: "Orders by customer", result: result })
+    } catch (error) {
+        res.status(500).json({ message: "error!" })
+    }
+}
+
+
 const obj = {
     createOrder,
     getAllOrders,
     purchaseCart,
     checkStock,
-    totalAmountOrders
+    totalAmountOrders,
+    ordersByCustomer
 }
 
 export default obj

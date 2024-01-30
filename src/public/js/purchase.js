@@ -11,6 +11,9 @@ window.addEventListener('click', function (e) {
         if (dom === "DELETE") {
             deleteProductById(id)
         }
+        if (dom === "DELETEALL") {
+            deleteAllProducts(id)
+        }
     }
     detectButton()
 })
@@ -18,6 +21,19 @@ window.addEventListener('click', function (e) {
 async function deleteProductById(product) {
     try {
         const result = await fetch(`http://localhost:8080/api/cart/${cartId}/product/${product}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    } catch (error) {
+        error
+    }
+}
+
+async function deleteAllProducts(cartId) {
+    try {
+        const result = await fetch(`http://localhost:8080/api/cart/delete/allProducts/${cartId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

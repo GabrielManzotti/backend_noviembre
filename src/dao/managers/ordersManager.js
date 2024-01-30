@@ -98,9 +98,7 @@ class OrdersManager {
 
     async totalAmountOrders(since, to) {
         const result = await orderModel.find()
-        // let sinceDate = since
         let checkSince = new Date(`${since}T00:00:00.000Z`)
-        // let toDate = to
         let checkTo = new Date(`${to}T00:00:00.000Z`)
         let amount = 0
         result.forEach((e) => {
@@ -111,6 +109,25 @@ class OrdersManager {
             }
         })
         return amount
+    }
+
+    async ordersByCustomer(id, since, to) {
+        const result = await orderModel.find()
+        let checkSince = new Date(`${since}T00:00:00.000Z`)
+        let checkTo = new Date(`${to}T00:00:00.000Z`)
+        let order = {}
+        let newArray = []
+        result.forEach((e) => {
+            let date = e.timestampt.createdAt
+            let d = new Date(date)
+            if ((d > checkSince) && (d < checkTo)) {
+                order = { code: e.code, amount: e.amount, products_quantity: e.products_quantity, products_price: e.products_price, purchaser: e.purchaser }
+                console.log(order);
+                newArray.push(order)
+            }
+        })
+
+        return newArray
     }
 
 }

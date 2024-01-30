@@ -34,7 +34,14 @@ router.post("/signup", passport.authenticate('signup', { successRedirect: "/api"
 
 router.post("/login", passport.authenticate("login", { successRedirect: "/api", failureRedirect: "/api/error" }))
 
-router.get("/logout", (req, res) => {
+router.get("/logout", async (req, res) => {
+    const email = req.user.email
+    const userDB = await usersManager.findByEmail(email)
+    const timeTranscurred = Date.now();
+    const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
+    userDB.last_connection.date = today
+    userDB.last_connection.action = "logout"
+    await userDB.save()
     req.session.destroy(() => {
         res.redirect("/api/login")
     })
@@ -56,8 +63,5 @@ router.get('/google',
 
 //current
 router.get('/current', authMiddleware('admin'), obj.sessionUser)
-
-
-
 
 export default router

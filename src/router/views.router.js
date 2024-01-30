@@ -208,4 +208,12 @@ router.get('/restoreCredential/:token', async (req, res) => {
     }
 })
 
+router.get('/multer', async (req, res) => {
+    try {
+        res.render("multer")
+    } catch (error) {
+        res.render("login")
+    }
+})
+
 export default router

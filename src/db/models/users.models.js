@@ -37,6 +37,10 @@ const usersSchema = new mongoose.Schema({
     from_google: {
         type: Boolean,
         default: false
+    },
+    last_connection: {
+        date: { type: String },
+        action: { type: String, enum: ["login", "logout"] }
     }
 })
 export const usersModel = mongoose.model('Users', usersSchema)

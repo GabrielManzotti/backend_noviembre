@@ -100,6 +100,15 @@ const resetProductsInCart = async (req, res) => {
     }
 }
 
+const deleteAllProducts = async (req, res) => {
+    let cartId = req.params.cid
+    try {
+        const result = await objServices.deleteAllProducts(cartId)
+        return res.status(200).json({ message: "Cart products deleted", Cart: result })
+    } catch (error) {
+        return res.status(500).json({ message: "error" })
+    }
+}
 
 const obj = {
     deleteCart,
@@ -109,7 +118,8 @@ const obj = {
     findAllCarts,
     createCart,
     deleteAProductInCart,
-    resetProductsInCart
+    resetProductsInCart,
+    deleteAllProducts
 }
 
 export default obj
