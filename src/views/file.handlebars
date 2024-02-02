@@ -1,0 +1,67 @@
+<h3>Hi there! welcome to the uploads menu</h3>
+
+<h4>upload documents</h4>
+<form
+  action="http://localhost:8080/api/users/prueba/documents"
+  enctype="multipart/form-data"
+  method="post"
+  id="fileForm"
+>
+  <div class="form-group">
+    <input type="file" class="form-control-file" name="documents" id={{id}} />
+    <input
+      type="submit"
+      value="UPLOAD DOCUMENT"
+      class="btn btn-default"
+      id="submit"
+    />
+  </div>
+</form>
+
+<h4>upload profile image</h4>
+<form
+  action="http://localhost:8080/api/users/prueba/profileImage"
+  enctype="multipart/form-data"
+  method="post"
+  id="profileForm"
+>
+  <div class="form-group">
+    <input
+      type="file"
+      class="form-control-profile"
+      name="profileImage"
+      id={{id}}
+    />
+    <input
+      type="submit"
+      value="UPLOAD DOCUMENT"
+      class="btn btn-default"
+      id="submit"
+    />
+  </div>
+</form>
+
+<h4>upload product image</h4>
+<form
+  action="http://localhost:8080/api/users/prueba/productImage"
+  enctype="multipart/form-data"
+  method="post"
+  id="productForm"
+>
+  <div class="form-group">
+    <input
+      type="file"
+      class="form-control-product"
+      name="productImage"
+      id={{id}}
+    />
+    <input
+      type="submit"
+      value="UPLOAD DOCUMENT"
+      class="btn btn-default"
+      id="submit"
+    />
+  </div>
+</form>
+
+<script type="module" src="/js/file.js"></script>

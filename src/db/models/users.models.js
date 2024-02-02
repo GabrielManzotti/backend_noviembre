@@ -41,6 +41,14 @@ const usersSchema = new mongoose.Schema({
     last_connection: {
         date: { type: String },
         action: { type: String, enum: ["login", "logout"] }
-    }
+    },
+    documents: [{
+        name: {
+            type: String,
+        },
+        reference: {
+            type: String
+        }
+    }]
 })
 export const usersModel = mongoose.model('Users', usersSchema)

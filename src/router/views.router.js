@@ -208,9 +208,10 @@ router.get('/restoreCredential/:token', async (req, res) => {
     }
 })
 
-router.get('/multer', async (req, res) => {
+router.get('/file', async (req, res) => {
     try {
-        res.render("multer")
+        const id = req.user.id
+        res.render("file", { id })
     } catch (error) {
         res.render("login")
     }
