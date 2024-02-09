@@ -40,6 +40,11 @@ const getAdminsUsers = () => {
     return result
 }
 
+const deleteUsersByTime = () => {
+    const result = usersManager.deleteUsersByTime()
+    return result
+}
+
 
 
 const obj = {
@@ -50,7 +55,8 @@ const obj = {
     updateRole,
     countUsersByRole,
     countUsers,
-    getAdminsUsers
+    getAdminsUsers,
+    deleteUsersByTime
 }
 
 export default obj

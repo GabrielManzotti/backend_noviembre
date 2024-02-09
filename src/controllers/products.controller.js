@@ -3,9 +3,12 @@ import { errorMiddleware } from "../errors/error.middleware.js";
 import { errorMessages } from "../errors/error.enum.js";
 import { usersManager } from "../dao/managers/usersManager.js";
 import { productsManager } from "../dao/managers/productsManager.js";
+import { sendEmail } from "../utils.js";
+import { usersModel } from "../db/models/users.models.js";
 
 
 const createProduct = async (req, res, next) => {
+    console.log("create<Product controller");
     const { title, description, code, price, status, stock, category, thumbnail, owner } = req.body
     if (!title || !description || !price || !code || !stock || !status || !category) {
         return res.status(400).json({ message: 'Some data is missing' })
@@ -128,7 +131,9 @@ const deleteProduct = async (req, res, next) => {
     const { idProduct } = req.params
     const emailSession = req.user.email
     const product = await productsManager.findById(idProduct)
+    let userDB
     if (product.owner !== "admin") {
+        userDB = await usersManager.findByEmail(product.owner)
         if (product.owner !== emailSession) {
             return res.status(400).json({ message: "you are not the owner of this product" })
         }
@@ -140,6 +145,12 @@ const deleteProduct = async (req, res, next) => {
     try {
         const deletedProduct = await objService.deleteOne(idProduct);
         if (deletedProduct === "deleted") {
+            if (userDB) {
+                const subject = "Product eliminated"
+                const text = `The product ${product.title} (id: ${product.id}) was eliminated`
+                console.log(text);
+                await sendEmail(subject, userDB.email, text)
+            }
             return res.status(200).json({ message: "Product deleted", Product: deletedProduct })
         }
         if (deletedProduct === "No product") {

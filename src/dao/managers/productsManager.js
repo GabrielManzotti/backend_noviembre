@@ -71,6 +71,7 @@ class ProductManager {
 
     async createOne(obj) {
         const product = await productsModel.create(obj)
+        console.log(product);
         return product
     }
     async updateOne(id, obj) {

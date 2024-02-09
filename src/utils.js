@@ -45,7 +45,8 @@ export const sendEmailRestoreCredential = async (obj) => {
     await transporter.sendMail(options);
 }
 
-export const sendEmail = async (subject, email, first_name, last_name, text) => {
+export const sendEmail = async (subject, email, text) => {
+    console.log("en utils", text)
     const options = {
         from: 'manzotti.gabriel@gmail.com',
         to: email,

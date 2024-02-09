@@ -89,6 +89,17 @@ const findByEmail = async (req, res) => {
     }
 }
 
+const deleteUsersByTime = async (req, res) => {
+    try {
+        const users = await obj.deleteUsersByTime()
+        res.status(200).json({ message: "Users deleted succesfully", users: users })
+    } catch (error) {
+        res.status(500).json({ error })
+    }
+}
+
+
+
 const objCtrollers = {
     deleteAUser,
     countUsersByRoleController,
@@ -96,7 +107,8 @@ const objCtrollers = {
     updateRoleController,
     findUserById,
     getAdminsUsers,
-    findByEmail
+    findByEmail,
+    deleteUsersByTime
 }
 
 export default objCtrollers

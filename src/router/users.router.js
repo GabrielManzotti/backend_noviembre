@@ -13,6 +13,7 @@ router.put('/updateRole', obj.updateRoleController)
 router.get('/:idUser', authMiddleware('admin'), obj.findUserById)
 router.get('/admins/getAdmins', obj.getAdminsUsers)
 router.get('/find/findByEmail/:email', obj.findByEmail)
+router.delete('/massiveDeleteUser/byTime', obj.deleteUsersByTime)
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -92,7 +93,6 @@ router.post('/:uid/productImage', upload.single("productImage"), async (req, res
         return res.status(500).json({ message: "error!" })
     }
 })
-
 
 export default router
 

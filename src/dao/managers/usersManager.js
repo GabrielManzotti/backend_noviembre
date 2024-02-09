@@ -67,6 +67,28 @@ class UsersManager {
         return result
     }
 
+    async deleteUsersByTime() {
+        let lastConecction
+        let fechaHoraActual = new Date();
+        let diferenciaZonaHoraria = -(3 * 60);
+        fechaHoraActual.setMinutes(fechaHoraActual.getMinutes() + diferenciaZonaHoraria);
+        fechaHoraActual.setMinutes(fechaHoraActual.getMinutes() - 30);
+        console.log(fechaHoraActual);
+        try {
+            const users = await usersModel.find()
+            users.forEach(async (e, index) => {
+                lastConecction = new Date(e.last_connection.date)
+                lastConecction.setHours(lastConecction.getHours() - 3)
+                if (lastConecction < fechaHoraActual) {
+                    await usersModel.deleteOne({ _id: e.id })
+                }
+            })
+            return "users deleted succesfully"
+        } catch (error) {
+            return error
+        }
+    }
+
 }
 
 export const usersManager = new UsersManager()

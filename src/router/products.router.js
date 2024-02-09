@@ -8,7 +8,7 @@ import { upload } from '../midldlewares/multer.middleware.js';
 const router = Router()
 router.delete('/delete/:idProduct', authMiddlewareTwoRoles('admin', 'premium'), obj.deleteProduct)
 // router.delete('/delete/:idProduct', obj.deleteProduct)
-router.post('/', authMiddleware('admin'), obj.createProduct)
+router.post('/', authMiddlewareTwoRoles('admin', 'premium'), obj.createProduct)
 // router.post('/', upload.single('productImage'), obj.createProduct)
 router.get('/', obj.findAllProducts)
 router.get('/category/:category/price/:price', obj.findProductsByCategoryAndPrice)
