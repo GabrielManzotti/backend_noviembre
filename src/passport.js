@@ -112,7 +112,7 @@ passport.use("github", new GithubStrategy({
 passport.use('google', new GoogleStrategy({
     clientID: google_client_id,
     clientSecret: google_client_secret,
-    callbackURL: "http://localhost:8080/api/sessions/google"
+    callbackURL: "https://backendv1-eosin.vercel.app/api/sessions/google"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         const userDB = await usersManager.findByEmail(profile._json.email)
