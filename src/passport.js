@@ -68,7 +68,7 @@ passport.use("login", new LocalStrategy({
 passport.use("github", new GithubStrategy({
     clientID: github_client_id,
     clientSecret: github_client_secret,
-    callbackURL: "http://localhost:8080/api/sessions/github"
+    callbackURL: "https://backendv1-eosin.vercel.app/api/sessions/github"
 }, async (accesToken, refreshToken, profile, done) => {
     try {
         const userDB = await usersManager.findByEmail(profile._json.email)
@@ -112,7 +112,7 @@ passport.use("github", new GithubStrategy({
 passport.use('google', new GoogleStrategy({
     clientID: google_client_id,
     clientSecret: google_client_secret,
-    callbackURL: "https://backendv1-eosin.vercel.app/api/sessions/google"
+    callbackURL: "http://localhost:8080/api/sessions/google"
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         const userDB = await usersManager.findByEmail(profile._json.email)
