@@ -16,7 +16,6 @@ getOrders.onsubmit = (e) => {
         since: document.getElementById("since").value,
         to: document.getElementById("to").value
     }
-    console.log(dates);
     if (validaDate(dates)) {
         getAmountOrders(dates)
     } else {

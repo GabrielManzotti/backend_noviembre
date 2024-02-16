@@ -1,4 +1,3 @@
-console.log("probando cliente");
 const socketClient = io()
 
 const form = document.getElementById('form')

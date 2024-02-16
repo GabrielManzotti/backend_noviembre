@@ -68,7 +68,8 @@ passport.use("login", new LocalStrategy({
 passport.use("github", new GithubStrategy({
     clientID: github_client_id,
     clientSecret: github_client_secret,
-    callbackURL: "https://backendv1-eosin.vercel.app/api/sessions/github"
+    callbackURL: "http://localhost:8080/api/sessions/github",
+    scope: ['user:email']
 }, async (accesToken, refreshToken, profile, done) => {
     try {
         const userDB = await usersManager.findByEmail(profile._json.email)
@@ -96,7 +97,7 @@ passport.use("github", new GithubStrategy({
         }
         const createdCart = await cartsManager.createOne()
         const createdUser = await usersManager.createOne({ ...newUser, cart: createdCart._id })
-        await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
+        await sendEmail(subject, req.body.first_name, req.body.last_name, text)
         const timeTranscurred = Date.now();
         const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
         userDB.last_connection.date = today

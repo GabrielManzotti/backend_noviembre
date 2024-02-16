@@ -45,13 +45,27 @@ export const sendEmailRestoreCredential = async (obj) => {
     await transporter.sendMail(options);
 }
 
-export const sendEmail = async (subject, email, text) => {
-    console.log("en utils", text)
+export const sendEmail = async (subject, email, text,) => {
     const options = {
         from: 'manzotti.gabriel@gmail.com',
         to: email,
         subject: subject,
-        text: text
+        text: text,
+    }
+    await transporter.sendMail(options);
+
+}
+
+export const sendEmailOrder = async (subject, email, ticket) => {
+    const options = {
+        from: 'manzotti.gabriel@gmail.com',
+        to: email,
+        subject: subject,
+        html: `<ul>
+                    <li>Código: ${ticket.code}</li>
+                    <li>Monto total: $${ticket.amount.toLocaleString()}</li>
+                </ul>
+                <p>El producto está siendo despachado</p>`
     }
     await transporter.sendMail(options);
 

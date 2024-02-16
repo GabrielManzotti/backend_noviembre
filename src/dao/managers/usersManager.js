@@ -73,7 +73,6 @@ class UsersManager {
         let diferenciaZonaHoraria = -(3 * 60);
         fechaHoraActual.setMinutes(fechaHoraActual.getMinutes() + diferenciaZonaHoraria);
         fechaHoraActual.setMinutes(fechaHoraActual.getMinutes() - 30);
-        console.log(fechaHoraActual);
         try {
             const users = await usersModel.find()
             users.forEach(async (e, index) => {

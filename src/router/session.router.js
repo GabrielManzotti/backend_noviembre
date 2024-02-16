@@ -51,7 +51,7 @@ router.get("/logout", async (req, res) => {
 router.get('/auth/github',
     passport.authenticate('github', { scope: ['user:email'] }));
 router.get('/github',
-    passport.authenticate('github', { failureRedirect: '/api/error', successRedirect: "/api" })
+    passport.authenticate('github', { failureRedirect: '/api', successRedirect: "/api" })
 );
 
 //google

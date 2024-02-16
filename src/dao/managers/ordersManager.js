@@ -2,7 +2,7 @@ import { orderModel } from "../../db/models/order.models.js";
 import { cartsModel } from "../../db/models/cart.models.js";
 import { cartsManager } from "./cartsManager.js";
 import { productsManager } from "../managers/productsManager.js"
-import { sendEmail } from "../../utils.js";
+import { sendEmail, sendEmailOrder } from "../../utils.js";
 
 
 class OrdersManager {
@@ -32,7 +32,7 @@ class OrdersManager {
         const result = await orderModel.create(ticket)
         let subject = "Orden generada con éxito"
         let text = "El producto está siendo despachado"
-        await sendEmail(subject, email, first_name, last_name, text)
+        await sendEmailOrder(subject, email, ticket)
         return ticket
     }
 
@@ -122,7 +122,6 @@ class OrdersManager {
             let d = new Date(date)
             if ((d > checkSince) && (d < checkTo)) {
                 order = { code: e.code, amount: e.amount, products_quantity: e.products_quantity, products_price: e.products_price, purchaser: e.purchaser }
-                console.log(order);
                 newArray.push(order)
             }
         })

@@ -43,17 +43,3 @@ class ProductManager {
     }
 }
 
-
-
-
-
-//------------------ TESTEOS-------------------//
-// const k = new ProductManager()
-// console.log('getproducts', k.getProducts())
-// k.addProduct('producto1', 'descripcion1', 'sin foto', 200, 'abc123', 200, 200)
-// console.log('getproducts', k.getProducts())
-// k.addProduct('producto1', 'descripcion1', 'sin foto', 200, 'abc124', 200, 200)
-// console.log('getproducts', k.getProducts())
-// k.addProduct('producto1', 'descripcion1', 'sin foto', 200, 'abc124', 200, 200)
-// console.log("getProdbyID", k.getProductsByID(1))
-//---------------------------------------------//

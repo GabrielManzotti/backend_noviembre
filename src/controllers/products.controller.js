@@ -8,7 +8,6 @@ import { usersModel } from "../db/models/users.models.js";
 
 
 const createProduct = async (req, res, next) => {
-    console.log("create<Product controller");
     const { title, description, code, price, status, stock, category, thumbnail, owner } = req.body
     if (!title || !description || !price || !code || !stock || !status || !category) {
         return res.status(400).json({ message: 'Some data is missing' })
@@ -148,7 +147,6 @@ const deleteProduct = async (req, res, next) => {
             if (userDB) {
                 const subject = "Product eliminated"
                 const text = `The product ${product.title} (id: ${product.id}) was eliminated`
-                console.log(text);
                 await sendEmail(subject, userDB.email, text)
             }
             return res.status(200).json({ message: "Product deleted", Product: deletedProduct })
