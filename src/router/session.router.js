@@ -30,7 +30,7 @@ router.put('/restorePassword/', async (req, res) => {
 })
 
 //passport
-router.post("/signup", passport.authenticate('signup', { successRedirect: "/api", failureRedirect: "/api/error" }))
+router.post("/signup", passport.authenticate('signup', { successRedirect: "/api", failureMessage: true, failureFlash: true, failureRedirect: "/api" }))
 
 router.post("/login", passport.authenticate("login", { successRedirect: "/api", failureRedirect: "/api/error" }))
 
@@ -53,6 +53,8 @@ router.get('/auth/github',
 router.get('/github',
     passport.authenticate('github', { failureRedirect: '/api', successRedirect: "/api" })
 );
+
+
 
 //google
 router.get('/auth/google',

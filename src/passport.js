@@ -28,13 +28,8 @@ passport.use("signup", new LocalStrategy({
         }
         const createdCart = await cartsManager.createOne()
         const hashedPassword = await hashData(password)
-        const createdUser = await usersManager.createOne({ ...req.body, password: hashedPassword, cart: createdCart._id })
-        await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
-        const timeTranscurred = Date.now();
-        const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
-        userDB.last_connection.date = today
-        userDB.last_connection.action = "login"
-        await userDB.save()
+        let createdUser = await usersManager.createOne({ ...req.body, password: hashedPassword, cart: createdCart._id, })
+        await sendEmail(subject, newUser.email, text)
         done(null, createdUser)
     } catch (error) {
         done(error)
@@ -65,6 +60,8 @@ passport.use("login", new LocalStrategy({
 }))
 
 // GITHUB
+// el signup de github me da error en el callback y no puedo descubrir porqué. Por eso no está habilitado el botón.
+// el login funciona perfecto
 passport.use("github", new GithubStrategy({
     clientID: github_client_id,
     clientSecret: github_client_secret,
@@ -97,12 +94,7 @@ passport.use("github", new GithubStrategy({
         }
         const createdCart = await cartsManager.createOne()
         const createdUser = await usersManager.createOne({ ...newUser, cart: createdCart._id })
-        await sendEmail(subject, req.body.first_name, req.body.last_name, text)
-        const timeTranscurred = Date.now();
-        const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
-        userDB.last_connection.date = today
-        userDB.last_connection.action = "login"
-        await userDB.save()
+        await sendEmail(subject, newUser.email, text)
         done(null, createdUser)
     } catch (error) {
         done(error)
@@ -141,12 +133,7 @@ passport.use('google', new GoogleStrategy({
         }
         const createdCart = await cartsManager.createOne()
         const createdUser = await usersManager.createOne({ ...newUser, cart: createdCart._id })
-        await sendEmail(subject, email, req.body.first_name, req.body.last_name, text)
-        const timeTranscurred = Date.now();
-        const today = new Date(timeTranscurred).toString("es-AR", { timeZone: "GMT-0300" });
-        userDB.last_connection.date = today
-        userDB.last_connection.action = "login"
-        await userDB.save()
+        await sendEmail(subject, newUser.email, text)
         done(null, createdUser)
     } catch (error) {
         done(error)

@@ -66,7 +66,7 @@ router.get("/home", (req, res) => {
 })
 
 router.get("/error", (req, res) => {
-
+    res.render("error")
 })
 
 router.get("/github", (req, res) => {
