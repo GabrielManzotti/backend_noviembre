@@ -29,7 +29,7 @@ passport.use("signup", new LocalStrategy({
         const createdCart = await cartsManager.createOne()
         const hashedPassword = await hashData(password)
         let createdUser = await usersManager.createOne({ ...req.body, password: hashedPassword, cart: createdCart._id, })
-        await sendEmail(subject, newUser.email, text)
+        await sendEmail(subject, req.body.email, text)
         done(null, createdUser)
     } catch (error) {
         done(error)
