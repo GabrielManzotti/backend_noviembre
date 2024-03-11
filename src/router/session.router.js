@@ -30,9 +30,9 @@ router.put('/restorePassword/', async (req, res) => {
 })
 
 //passport
-router.post("/signup", passport.authenticate('signup', { successRedirect: "/api", failureMessage: true, failureFlash: true, failureRedirect: "/api" }))
+router.post("/signup", passport.authenticate('signup', { successRedirect: "/api/sessions/current", failureMessage: true, failureFlash: true, failureRedirect: "/api" }))
 
-router.post("/login", passport.authenticate("login", { successRedirect: "/api", failureRedirect: "/api/error" }))
+router.post("/login", passport.authenticate("login", { successRedirect: "http://localhost:3000/index", failureRedirect: "http://localhost:3000/login", failureFlash: true, successFlash: true, }))
 
 router.get("/logout", async (req, res) => {
     const email = req.user.email
@@ -64,6 +64,6 @@ router.get('/google',
     passport.authenticate('google', { failureRedirect: '/api/error', successRedirect: "/api" }))
 
 //current
-router.get('/current', authMiddleware('admin'), obj.sessionUser)
+router.get('/current', obj.sessionUser)
 
 export default router

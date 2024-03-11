@@ -22,6 +22,9 @@ import { errorMiddleware } from './errors/error.middleware.js';
 import { logger } from './winston.js';
 import swaggerUi from 'swagger-ui-express'
 import { swaggerSetup } from './swaggerSpecs.js';
+import cors from "cors";
+import flash from 'connect-flash'
+
 
 
 dotenv.config()
@@ -30,12 +33,15 @@ const session_secret_key = config.SESSION_SECRET_KEY
 
 const app = express()
 
+app._router
+
 const secret = '123456'
 app.use(cookieParser(secret))
 
 app.use(errorMiddleware)
 
 app.use(express.json())
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public/'))
 
@@ -52,8 +58,9 @@ app.use(session({
 ))
 
 //passport
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash())
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');

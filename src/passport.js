@@ -8,6 +8,8 @@ import { cartsManager } from "./dao/managers/cartsManager.js";
 import { sendEmail } from "./utils.js";
 import config from './config.js'
 import dotenv from 'dotenv'
+import flash from 'connect-flash'
+
 dotenv.config()
 const github_client_id = config.GITHUB_CLIENT_ID
 const github_client_secret = config.GITHUB_CLIENT_SECRET
@@ -38,11 +40,12 @@ passport.use("signup", new LocalStrategy({
 
 passport.use("login", new LocalStrategy({
     usernameField: 'email',
-}, async (email, password, done) => {
+    passReqToCallback: true
+}, async (req, email, password, done) => {
     try {
         const userDB = await usersManager.findByEmail(email)
         if (!userDB) {
-            return done(null, false)
+            return done(null, false, { message: "Incorrect password" })
         }
         const comparePassword = await compareData(password, userDB.password)
         if (!comparePassword) {
